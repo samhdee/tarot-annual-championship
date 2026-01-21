@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\UserModel;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -7,10 +8,10 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::create('games', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('hand_id')->index();
-            $table->foreignId('winner_id')->index();
+        Schema::create('bga_users', function (Blueprint $table) {
+            $table->increments('id');
+            $table->foreignIdFor(UserModel::class, 'user_id');
+            $table->string('bga_username')->unique();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -18,6 +19,6 @@ return new class extends Migration {
 
     public function down(): void
     {
-        Schema::dropIfExists('games');
+        Schema::dropIfExists('bga_users');
     }
 };

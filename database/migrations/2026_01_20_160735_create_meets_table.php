@@ -7,19 +7,18 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::create('hands', function (Blueprint $table) {
-            $table->id();
+        Schema::create('meets', function (Blueprint $table) {
+            $table->increments('id');
             $table->timestamp('started_at')->nullable();
             $table->timestamp('ended_at')->nullable();
-            $table->foreignId('tarot_session_id')->index();
-            $table->foreignId('winner_id')->index();
-            $table->timestamps();
+            $table->timestamp('created_at');
+            $table->timestamp('updated_at')->nullable();
             $table->softDeletes();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('hands');
+        Schema::dropIfExists('meets');
     }
 };

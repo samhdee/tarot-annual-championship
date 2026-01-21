@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\MeetModel;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -7,12 +8,13 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::create('tarot_sessions', function (Blueprint $table) {
+        Schema::create('hands', function (Blueprint $table) {
             $table->id();
-            $table->timestamp('started_at')->index();
+            $table->string('imported_from', 255)->nullable();
+            $table->integer('bga_hand_id', unsigned: true)->nullable();
+            $table->foreignIdFor(MeetModel::class, 'meet_id');
+            $table->timestamp('started_at')->nullable();
             $table->timestamp('ended_at')->nullable();
-            $table->foreignId('host_id')->index();
-            $table->foreignId('winner_id')->index();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -20,6 +22,6 @@ return new class extends Migration {
 
     public function down(): void
     {
-        Schema::dropIfExists('tarot_sessions');
+        Schema::dropIfExists('hands');
     }
 };
