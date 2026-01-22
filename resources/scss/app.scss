@@ -3,21 +3,44 @@
 @use "../../node_modules/@fortawesome/fontawesome-free/scss/regular.scss";
 @use "../../node_modules/@fortawesome/fontawesome-free/scss/solid.scss";
 
+@import "mixins";
+@import "font_face";
+
 body {
-    background-color: #333;
+    background-color: $t-dark-background;
+    font-family: 'Lato', sans-serif;
+    color: white;
 
     nav.navbar {
-        background-color: rgb(8, 126, 130);
+        background-color: $t-green;
+
+        a,
+        a:hover {
+            color: white;
+        }
+
+        #nav-brand-separator {
+            left: 110px;
+            height: 40px;
+        }
+
+        #header-page-title {
+            background: white;
+            color: $t-green;
+        }
 
         .nav-link:hover,
         .nav-link.active {
-            background-color: rgb(10, 147, 152);
+            background-color: $t-green-faded;
         }
     }
 
     #main-container {
         padding: 1rem;
-        color: white;
+
+        h1, h2, h3, h4, h5 {
+            font-family: 'Merriweather', sans-serif;
+        }
 
         h1 {
             margin: 1rem .5rem;
@@ -37,39 +60,62 @@ body {
         }
 
         .text-muted {
-            color: rgb(225, 224, 224) !important;
+            color: rgb(203, 203, 203) !important;
         }
 
-        .form-control,
-        .table tr td {
-            background-color: #4a4a4a;
-            color: white;
+        .pagination {
+            li.page-item {
+                a.page-link {
+                    border-color: $t-green;
+                    border-left-color: $t-green-faded;
+                    color: $t-green;
+                }
+
+                &.active {
+                    a.page-link {
+                        background: $t-green;
+                        color: white;
+                    }
+                }
+            }
         }
 
-        .form-floating {
-            textarea.form-control {
-                height: auto;
-                resize: none;
+        form {
+            .form-control {
+                background-color: #4a4a4a;
+                color: white;
             }
 
-            & > label,
-            & > textarea:focus~label::after,
-            & > textarea:not(:placeholder-shown)~label::after {
-                color: white;
-                background-color: transparent;
+            .form-floating {
+                textarea.form-control {
+                    height: auto;
+                    resize: none;
+                }
+
+                & > label,
+                & > textarea:focus ~ label::after,
+                & > textarea:not(:placeholder-shown) ~ label::after {
+                    color: white;
+                    background-color: transparent;
+                }
             }
         }
 
         .table {
             tr {
                 th {
-                    background-color: #303030;
+                    background-color: $t-green;
                     color: white;
                 }
 
-                .form-control {
-                    border: none;
-                    background-color: #363535;
+                td {
+                    background: $t-dark-background;
+                    color: white;
+
+                    .form-control {
+                        border: none;
+                        background-color: #363535;
+                    }
                 }
             }
         }

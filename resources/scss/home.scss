@@ -1,0 +1,37 @@
+@import "mixins";
+
+body {
+    #scores-list-wrapper {
+        .table {
+            thead tr, th:first-child {
+                border-top: none !important;
+                border-left: none !important;
+            }
+
+            thead tr th:last-child {
+                border-right: none !important;
+            }
+
+            thead tr th {
+                border-bottom: 1px solid white !important;
+            }
+
+            tr {
+                border-right: none !important;
+                border-left: none !important;
+
+                td:first-child {
+                    border-left: none !important;
+                }
+
+                td:last-child {
+                    border-right: none !important;
+                }
+
+                &:last-child {
+                    border-bottom: none !important;
+                }
+            }
+        }
+    }
+}
