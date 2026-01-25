@@ -3,12 +3,12 @@
 namespace App\Console\Commands;
 
 use App\Enums\Miseres;
-use App\Models\BGAUserModel;
-use App\Models\GameModel;
-use App\Models\GamePlayerScoreModel;
-use App\Models\HandModel;
-use App\Models\HandPlayerModel;
-use App\Models\MeetModel;
+use App\Models\BgaUser;
+use App\Models\Game;
+use App\Models\GamePlayer;
+use App\Models\Hand;
+use App\Models\HandPlayer;
+use App\Models\Meet;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Console\Command;
@@ -92,9 +92,9 @@ class ParseWebResultsCommand extends Command
     /**
      * Crée le Meet et la Manche puis renvoie la Manche
      * @param Crawler $crawler
-     * @return HandModel
+     * @return Hand
      */
-    private function getHand(Crawler $crawler): HandModel
+    private function getHand(Crawler $crawler): Hand
     {
         // Récupère la date de début
         $hand_start_date = Carbon::createFromFormat(
@@ -105,21 +105,21 @@ class ParseWebResultsCommand extends Command
         $meet_date = $hand_start_date->copy()->startOfDay();
 
         // Récupération ou création du Meet
-        $meet = MeetModel::query()
+        $meet = Meet::query()
             ->select('id')
             ->whereDate('started_at', $meet_date)
             ->first();
 
         // @FIXME : Jeter une erreur si problème (genre la date existe déjà)
         if (empty($meet)) {
-            $meet = MeetModel::create(['started_at' => $meet_date]);
+            $meet = Meet::create(['started_at' => $meet_date]);
         }
 
         $c_bga_hand_id = $crawler->filter('#reviewtitle')->first();
 
         // Création de la Manche
         // @FIXME : create() renvoie pas un false si échec ?
-        return HandModel::create([
+        return Hand::create([
             'meet_id' => $meet->id,
             'started_at' => $hand_start_date,
             'bga_hand_id' => $c_bga_hand_id->count() > 0
@@ -149,18 +149,18 @@ class ParseWebResultsCommand extends Command
             // @FIXME: Throw si $bga_username vide
             // @FIXME : Dé-delete si username déjà pris ?
             // Récupère ou crée les users BGA
-            $bga_user = BGAUserModel::query()
+            $bga_user = BgaUser::query()
                 ->select(['id', 'bga_username'])
                 ->where('bga_username', $bga_username)
                 ->whereNull('deleted_at')
                 ->first();
 
             if (empty($bga_user)) {
-                $bga_user = BGAUserModel::create(['bga_username' => $bga_username]);
+                $bga_user = BgaUser::create(['bga_username' => $bga_username]);
             }
 
             // Crée les joueurs de la manche
-            $hand_players[$bga_username] = HandPlayerModel::create([
+            $hand_players[$bga_username] = HandPlayer::create([
                 'bga_user_id' => $bga_user->id,
                 'hand_id' => $hand_id,
                 'total_points' => intval(str_replace(
@@ -176,11 +176,11 @@ class ParseWebResultsCommand extends Command
 
     /**
      * @param Crawler $crawler
-     * @param HandModel $hand
-     * @param HandPlayerModel[] $hand_players
+     * @param Hand $hand
+     * @param HandPlayer[] $hand_players
      * @return void
      */
-    private function parseResults(Crawler $crawler, HandModel &$hand, array $hand_players): void
+    private function parseResults(Crawler $crawler, Hand &$hand, array $hand_players): void
     {
         $c_gamelogs = $crawler->filter('#gamelogs > div:not(.reflexiontimes_block)');
         $i = 1;
@@ -205,7 +205,7 @@ class ParseWebResultsCommand extends Command
                     ->first()
                     ->text();
 
-                $game = GameModel::create([
+                $game = Game::create([
                     'hand_id' => $hand->id,
                     'started_at' => strtotime($start_date . ' ' . $start_time_text),
                 ]);
@@ -288,7 +288,7 @@ class ParseWebResultsCommand extends Command
                     : $m_points[3]
                 );
 
-                GamePlayerScoreModel::create($game_players[$m_points[1]]);
+                GamePlayer::create($game_players[$m_points[1]]);
                 $game->save();
             }
         });

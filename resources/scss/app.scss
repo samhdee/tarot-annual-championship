@@ -2,6 +2,7 @@
 @use "../../node_modules/@fortawesome/fontawesome-free/scss/fontawesome.scss";
 @use "../../node_modules/@fortawesome/fontawesome-free/scss/regular.scss";
 @use "../../node_modules/@fortawesome/fontawesome-free/scss/solid.scss";
+@use "../../node_modules/tui-color-picker/dist/tui-color-picker.min.css";
 
 @import "mixins";
 @import "font_face";
@@ -20,18 +21,14 @@ body {
         }
 
         #nav-brand-separator {
-            left: 110px;
+            left: 90px;
             height: 40px;
-        }
-
-        #header-page-title {
-            background: white;
-            color: $t-green;
         }
 
         .nav-link:hover,
         .nav-link.active {
-            background-color: $t-green-faded;
+            background: white;
+            color: $t-green;
         }
     }
 
@@ -61,6 +58,10 @@ body {
 
         .text-muted {
             color: rgb(203, 203, 203) !important;
+        }
+
+        .text-small {
+            font-size: .7rem;
         }
 
         .pagination {

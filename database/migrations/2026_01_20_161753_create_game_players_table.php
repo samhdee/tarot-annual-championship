@@ -3,8 +3,8 @@
 use App\Enums\BGABids;
 use App\Enums\Miseres;
 use App\Enums\Poignees;
-use App\Models\GameModel;
-use App\Models\HandPlayerModel;
+use App\Models\Game;
+use App\Models\HandPlayer;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -12,10 +12,10 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::create('game_player_scores', function (Blueprint $table) {
+        Schema::create('game_players', function (Blueprint $table) {
             $table->increments('id');
-            $table->foreignIdFor(GameModel::class, 'game_id');
-            $table->foreignIdFor(HandPlayerModel::class, 'hand_player_id');
+            $table->foreignIdFor(Game::class, 'game_id');
+            $table->foreignIdFor(HandPlayer::class, 'hand_player_id');
             $table->integer('order');
             $table->enum('bga_bid_id', array_column(BGABids::cases(), 'value'));
             $table->enum('role', ['taker', 'taker_partner', 'defender']);

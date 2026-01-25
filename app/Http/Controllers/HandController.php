@@ -8,4 +8,9 @@ class HandController extends Controller
     {
 
     }
+
+    public function add()
+    {
+
+    }
 }

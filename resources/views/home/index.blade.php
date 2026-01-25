@@ -1,127 +1,95 @@
+@php use App\Models\Hand; @endphp
+
 @extends ('includes.layout')
 
 @section('title', 'Accueil')
 
 @section('vite_imports')
-    @vite(['resources/scss/home.scss'])
+    @vite(['resources/scss/home.scss', 'resources/js/home.js'])
 @endsection
 
 @section ('content')
     <div id="scores-container">
-        <h1>Tableau des scores</h1>
+        <h1>Dernières sessions</h1>
 
-        <article id="scores-list-wrapper" class="mt-5">
-            <section>
-                <nav aria-label="Pagination">
-                    <ul class="pagination justify-content-center">
-                        <li class="page-item">
-                            <a class="page-link d-inline" href="#" aria-label="Précédent">
-                                <i aria-hidden="true" class="fas fa-step-backward"></i>
-                            </a>
-                        </li>
+        <article id="scores-list-wrapper" class="mt-4">
+            <x-pagination />
 
-                        <li class="page-item">
-                            <a class="page-link d-inline" href="#" aria-label="1">
-                                1
-                            </a>
-                        </li>
+            <div id="scores-filters" class="d-flex ju">
 
-                        <li class="page-item active">
-                            <a class="page-link d-inline" href="#" aria-current="page">
-                                2
-                            </a>
-                        </li>
+            </div>
 
-                        <li class="page-item">
-                            <a class="page-link d-inline" href="#" aria-label="3">
-                                3
-                            </a>
-                        </li>
-
-                        <li class="page-item">
-                            <a class="page-link d-inline" href="#" aria-label="Suivant">
-                                <i aria-hidden="true" class="fas fa-step-forward"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-            </section>
-
-            <section class="mt-4">
+            <section class="mt-5">
                 <table class="table table-bordered border-0">
                     <thead>
                         <tr>
-                            <th>Date <a href="#"><i class="fas fa-arrows-up-down"></i></a></th>
-                            <th>Joueur.euse.s</th>
-                            <th>Nombre de parties</th>
+                            <th class="text-center" style="width: 7rem">
+                                Date
+                                <a href="#"><i class="fas fa-chevron-up ms-1 text-small"></i></a>
+                            </th>
+
+                            <th>Durée</th>
+                            <th style="width: 12rem">Joueur.euse.s</th>
                             <th>Vainqueur.euse</th>
-                            <th>Actions</th>
+                            <th>Points</th>
+                            <th style="width: 8rem"></th>
                         </tr>
                     </thead>
 
                     <tbody>
-                        <tr>
-                            <td>25/01</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
+                        @php /** @var Hand[] $hands */ @endphp
+                        @forelse ($hands as $hand)
+                            <tr>
+                                <td class="text-center">{{ $hand->started_at->format('d/m/Y') }}</td>
 
-                        <tr>
-                            <td>28/01</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
+                                <td>{{ ceil($hand->started_at->diffInMinutes($hand->ended_at)) }} minutes</td>
 
-                        <tr>
-                            <td>15/01</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
+                                <td>
+                                    @foreach ($hand->players->sortBy('bgaUser.bga_username') as $hand_player)
+                                        <a class="player-badge" href="#">
+                                            {{ substr($hand_player->bgaUser->bga_username, 0, 2) }}
+                                        </a>
+                                    @endforeach
+                                </td>
+
+                                <td>
+                                    <a href="#">
+                                        {{ $hand->players->sortByDesc('total_points')->first()->bgaUser->bga_username }}
+                                    </a>
+                                </td>
+
+                                <td>{{ $hand->players->first()->total_points }} points</td>
+
+                                <td class="text-center">
+                                    <a class="p-1 btn btn-sm btn-primary" href="#" title="Voir la session">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+
+                                    <a class="ms-1 p-1 btn btn-sm btn-primary" href="#" title="Éditer la session">
+                                        <i class="fas fa-pencil"></i>
+                                    </a>
+
+                                    <a class="ms-1 p-1 btn btn-sm btn-danger" href="#" title="Supprimer la session">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="6">
+                                    <div class="text-muted text-center fst-italic">
+                                        <i class="fas fa-ban me-1"></i> Aucun résultat
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </section>
 
-            <section class="mt-4">
-                <nav aria-label="Pagination">
-                    <ul class="pagination justify-content-center">
-                        <li class="page-item">
-                            <a class="page-link d-inline" href="#" aria-label="Précédent">
-                                <i aria-hidden="true" class="fas fa-step-backward"></i>
-                            </a>
-                        </li>
-
-                        <li class="page-item">
-                            <a class="page-link d-inline" href="#" aria-label="1">
-                                1
-                            </a>
-                        </li>
-
-                        <li class="page-item active">
-                            <a class="page-link d-inline" href="#" aria-current="page">
-                                2
-                            </a>
-                        </li>
-
-                        <li class="page-item">
-                            <a class="page-link d-inline" href="#" aria-label="3">
-                                3
-                            </a>
-                        </li>
-
-                        <li class="page-item">
-                            <a class="page-link d-inline" href="#" aria-label="Suivant">
-                                <i aria-hidden="true" class="fas fa-step-forward"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-            </section>
+            <div class="mt-5">
+                <x-pagination />
+            </div>
         </article>
     </div>
 @endsection

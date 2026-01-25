@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\HandModel;
+use App\Models\Hand;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -10,7 +10,7 @@ return new class extends Migration {
     {
         Schema::create('games', function (Blueprint $table) {
             $table->increments('id');
-            $table->foreignIdFor(HandModel::class, 'hand_id');
+            $table->foreignIdFor(Hand::class, 'hand_id');
             $table->enum('king_colour', ['141', '142', '143', '144']);
             $table->smallInteger('contract_points_diff')->default(0);
             $table->timestamps();

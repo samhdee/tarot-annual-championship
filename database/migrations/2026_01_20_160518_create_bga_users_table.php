@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\UserModel;
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -10,7 +10,7 @@ return new class extends Migration {
     {
         Schema::create('bga_users', function (Blueprint $table) {
             $table->increments('id');
-            $table->foreignIdFor(UserModel::class, 'user_id');
+            $table->foreignIdFor(User::class, 'user_id');
             $table->string('bga_username')->unique();
             $table->timestamps();
             $table->softDeletes();

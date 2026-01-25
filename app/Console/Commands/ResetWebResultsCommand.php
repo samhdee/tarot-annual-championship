@@ -2,12 +2,12 @@
 
 namespace App\Console\Commands;
 
-use App\Models\BGAUserModel;
-use App\Models\GameModel;
-use App\Models\GamePlayerScoreModel;
-use App\Models\HandModel;
-use App\Models\HandPlayerModel;
-use App\Models\MeetModel;
+use App\Models\BgaUser;
+use App\Models\Game;
+use App\Models\GamePlayer;
+use App\Models\Hand;
+use App\Models\HandPlayer;
+use App\Models\Meet;
 use DB;
 use Illuminate\Console\Command;
 use Storage;

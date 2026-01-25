@@ -761,22 +761,22 @@ namespace PHPSTORM_META {
         ]));
 
     override(\auth()->user(), map([
-        '' => \App\Models\UserModel::class,
+        '' => \App\Models\User::class,
     ]));
     override(\Illuminate\Contracts\Auth\Guard::user(), map([
-        '' => \App\Models\UserModel::class,
+        '' => \App\Models\User::class,
     ]));
     override(\Illuminate\Support\Facades\Auth::user(), map([
-        '' => \App\Models\UserModel::class,
+        '' => \App\Models\User::class,
     ]));
     override(\request()->user(), map([
-        '' => \App\Models\UserModel::class,
+        '' => \App\Models\User::class,
     ]));
     override(\Illuminate\Http\Request::user(), map([
-        '' => \App\Models\UserModel::class,
+        '' => \App\Models\User::class,
     ]));
     override(\Illuminate\Support\Facades\Request::user(), map([
-        '' => \App\Models\UserModel::class,
+        '' => \App\Models\User::class,
     ]));
 
     override(\config(), map([
@@ -2380,7 +2380,7 @@ namespace PHPSTORM_META {
     override(\optional(0), type(0));
 
             registerArgumentsSet('auth', );
-        registerArgumentsSet('configs', 
+        registerArgumentsSet('configs',
 'broadcasting.default','broadcasting.connections.reverb.driver','broadcasting.connections.reverb.key','broadcasting.connections.reverb.secret','broadcasting.connections.reverb.app_id',
 'broadcasting.connections.reverb.options.host','broadcasting.connections.reverb.options.port','broadcasting.connections.reverb.options.scheme','broadcasting.connections.reverb.options.useTLS','broadcasting.connections.reverb.client_options',
 'broadcasting.connections.pusher.driver','broadcasting.connections.pusher.key','broadcasting.connections.pusher.secret','broadcasting.connections.pusher.app_id','broadcasting.connections.pusher.options.cluster',
@@ -2485,15 +2485,15 @@ namespace PHPSTORM_META {
 'ide-helper.model_camel_case_properties','ide-helper.type_overrides.integer','ide-helper.type_overrides.boolean','ide-helper.include_class_docblocks','ide-helper.force_fqn',
 'ide-helper.use_generics_annotations','ide-helper.macro_default_return_types.Illuminate\\Http\\Client\\Factory','ide-helper.additional_relation_types','ide-helper.additional_relation_return_types','ide-helper.enforce_nullable_relationships',
 'ide-helper.post_migrate','tinker.commands','tinker.alias','tinker.dont_alias',);
-        registerArgumentsSet('middleware', 
+        registerArgumentsSet('middleware',
 'web','api','auth','auth.basic','auth.session',
 'cache.headers','can','guest','password.confirm','precognitive',
 'signed','throttle','verified',);
-        registerArgumentsSet('routes', 
+        registerArgumentsSet('routes',
 'debugbar.openhandler','debugbar.clockwork','debugbar.assets.css','debugbar.assets.js','debugbar.cache.delete',
 'debugbar.queries.explain','home','meet_add','admin_index',
 'storage.local',);
-        registerArgumentsSet('views', 
+        registerArgumentsSet('views',
 'home.index','includes.header','includes.layout','meet.add','meet.index',
 'laravel-exceptions-renderer::components.badge','laravel-exceptions-renderer::components.empty-state','laravel-exceptions-renderer::components.file-with-line','laravel-exceptions-renderer::components.formatted-source','laravel-exceptions-renderer::components.frame',
 'laravel-exceptions-renderer::components.frame-code','laravel-exceptions-renderer::components.header','laravel-exceptions-renderer::components.http-method','laravel-exceptions-renderer::components.icons.alert','laravel-exceptions-renderer::components.icons.check',
@@ -2507,7 +2507,7 @@ namespace PHPSTORM_META {
 'laravel-exceptions::429','laravel-exceptions::500','laravel-exceptions::503','laravel-exceptions::layout','laravel-exceptions::minimal',
 'notifications::email','pagination::bootstrap-4','pagination::bootstrap-5','pagination::default','pagination::semantic-ui',
 'pagination::simple-bootstrap-4','pagination::simple-bootstrap-5','pagination::simple-default','pagination::simple-tailwind','pagination::tailwind',);
-        registerArgumentsSet('translations', 
+        registerArgumentsSet('translations',
 'D:.www.tarot-champions-league.vendor.laravel.framework.src.Illuminate.Translation.lang.en.auth.failed','D:.www.tarot-champions-league.vendor.laravel.framework.src.Illuminate.Translation.lang.en.auth.password','D:.www.tarot-champions-league.vendor.laravel.framework.src.Illuminate.Translation.lang.en.auth.throttle','D:.www.tarot-champions-league.vendor.laravel.framework.src.Illuminate.Translation.lang.en.pagination.previous','D:.www.tarot-champions-league.vendor.laravel.framework.src.Illuminate.Translation.lang.en.pagination.next',
 'D:.www.tarot-champions-league.vendor.laravel.framework.src.Illuminate.Translation.lang.en.passwords.reset','D:.www.tarot-champions-league.vendor.laravel.framework.src.Illuminate.Translation.lang.en.passwords.sent','D:.www.tarot-champions-league.vendor.laravel.framework.src.Illuminate.Translation.lang.en.passwords.throttled','D:.www.tarot-champions-league.vendor.laravel.framework.src.Illuminate.Translation.lang.en.passwords.token','D:.www.tarot-champions-league.vendor.laravel.framework.src.Illuminate.Translation.lang.en.passwords.user',
 'D:.www.tarot-champions-league.vendor.laravel.framework.src.Illuminate.Translation.lang.en.validation.accepted','D:.www.tarot-champions-league.vendor.laravel.framework.src.Illuminate.Translation.lang.en.validation.accepted_if','D:.www.tarot-champions-league.vendor.laravel.framework.src.Illuminate.Translation.lang.en.validation.active_url','D:.www.tarot-champions-league.vendor.laravel.framework.src.Illuminate.Translation.lang.en.validation.after','D:.www.tarot-champions-league.vendor.laravel.framework.src.Illuminate.Translation.lang.en.validation.after_or_equal',
@@ -2538,7 +2538,7 @@ namespace PHPSTORM_META {
 'D:.www.tarot-champions-league.vendor.laravel.framework.src.Illuminate.Translation.lang.en.validation.size.string','D:.www.tarot-champions-league.vendor.laravel.framework.src.Illuminate.Translation.lang.en.validation.starts_with','D:.www.tarot-champions-league.vendor.laravel.framework.src.Illuminate.Translation.lang.en.validation.string','D:.www.tarot-champions-league.vendor.laravel.framework.src.Illuminate.Translation.lang.en.validation.timezone','D:.www.tarot-champions-league.vendor.laravel.framework.src.Illuminate.Translation.lang.en.validation.unique',
 'D:.www.tarot-champions-league.vendor.laravel.framework.src.Illuminate.Translation.lang.en.validation.uploaded','D:.www.tarot-champions-league.vendor.laravel.framework.src.Illuminate.Translation.lang.en.validation.uppercase','D:.www.tarot-champions-league.vendor.laravel.framework.src.Illuminate.Translation.lang.en.validation.url','D:.www.tarot-champions-league.vendor.laravel.framework.src.Illuminate.Translation.lang.en.validation.ulid','D:.www.tarot-champions-league.vendor.laravel.framework.src.Illuminate.Translation.lang.en.validation.uuid',
 'D:.www.tarot-champions-league.vendor.laravel.framework.src.Illuminate.Translation.lang.en.validation.custom.attribute-name.rule-name',);
-        registerArgumentsSet('env', 
+        registerArgumentsSet('env',
 'APP_NAME','APP_ENV','APP_KEY','APP_DEBUG','APP_URL',
 'ASSET_URL','APP_LOCALE','APP_FALLBACK_LOCALE','APP_FAKER_LOCALE','APP_MAINTENANCE_DRIVER',
 'BCRYPT_ROUNDS','LOG_CHANNEL','LOG_STACK','LOG_DEPRECATIONS_CHANNEL','LOG_LEVEL',
@@ -2549,7 +2549,7 @@ namespace PHPSTORM_META {
 'MAIL_MAILER','MAIL_SCHEME','MAIL_HOST','MAIL_PORT','MAIL_USERNAME',
 'MAIL_PASSWORD','MAIL_FROM_ADDRESS','MAIL_FROM_NAME','AWS_ACCESS_KEY_ID','AWS_SECRET_ACCESS_KEY',
 'AWS_DEFAULT_REGION','AWS_BUCKET','AWS_USE_PATH_STYLE_ENDPOINT','VITE_APP_NAME',);
-        
+
                 expectedArguments(\Illuminate\Support\Facades\Gate::has(), 0, argumentsSet('auth'));
     expectedArguments(\Illuminate\Support\Facades\Gate::allows(), 0, argumentsSet('auth'));
     expectedArguments(\Illuminate\Support\Facades\Gate::denies(), 0, argumentsSet('auth'));
@@ -2613,5 +2613,5 @@ namespace PHPSTORM_META {
                 expectedArguments(\Illuminate\Contracts\Translation\Translator::get(), 0, argumentsSet('translations'));
                 expectedArguments(\env(), 0, argumentsSet('env'));
                 expectedArguments(\Illuminate\Support\Env::get(), 0, argumentsSet('env'));
-            
+
 }

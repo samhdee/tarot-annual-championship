@@ -3,33 +3,56 @@
 body {
     #scores-list-wrapper {
         .table {
-            thead tr, th:first-child {
-                border-top: none !important;
-                border-left: none !important;
-            }
+            thead {
+                tr {
+                    border-top: none;
 
-            thead tr th:last-child {
-                border-right: none !important;
-            }
+                    th {
+                        &:first-child {
+                             border-top: none !important;
+                             border-left: none !important;
+                        }
 
-            thead tr th {
-                border-bottom: 1px solid white !important;
-            }
-
-            tr {
-                border-right: none !important;
-                border-left: none !important;
-
-                td:first-child {
-                    border-left: none !important;
+                        &:last-child {
+                            border-right: none !important;
+                        }
+                    }
                 }
+            }
 
-                td:last-child {
+            tbody {
+                tr {
                     border-right: none !important;
-                }
+                    border-left: none !important;
+                    height: 3.7rem;
+                    vertical-align: middle;
 
-                &:last-child {
-                    border-bottom: none !important;
+                    &:last-child {
+                        border-bottom: none !important;
+                    }
+
+                    td {
+                        &:not(:first-child):not(:last-child) {
+                            padding-left: 1rem;
+                        }
+
+                        &:first-child {
+                            border-left: none !important;
+                        }
+
+                        &:last-child {
+                            border-right: none !important;
+                        }
+
+                        .player-badge {
+                            display: inline-block;
+                            margin-right: 5px;
+                            height: 20px;
+                            width: 20px;
+                            border-radius: 50%;
+                            border: 1px solid #dadada;
+                        }
+                    }
                 }
             }
         }
