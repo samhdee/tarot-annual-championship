@@ -19,5 +19,7 @@
         <main id="main-container" class="container mt-4">
             @yield('content')
         </main>
+
+        @include('includes.footer')
     </div>
 </body>

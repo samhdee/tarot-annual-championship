@@ -13,6 +13,8 @@ return new class extends Migration {
             $table->foreignIdFor(Hand::class, 'hand_id');
             $table->enum('king_colour', ['141', '142', '143', '144']);
             $table->smallInteger('contract_points_diff')->default(0);
+            $table->timestamp('started_at')->nullable();
+            $table->timestamp('ended_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

@@ -1,8 +1,5 @@
-@use "../../node_modules/bootstrap/scss/bootstrap.scss";
-@use "../../node_modules/@fortawesome/fontawesome-free/scss/fontawesome.scss";
-@use "../../node_modules/@fortawesome/fontawesome-free/scss/regular.scss";
-@use "../../node_modules/@fortawesome/fontawesome-free/scss/solid.scss";
-@use "../../node_modules/tui-color-picker/dist/tui-color-picker.min.css";
+@use '@fortawesome/fontawesome-free/css/all.min.css';
+@use 'bootstrap/dist/css/bootstrap.min.css';
 
 @import "mixins";
 @import "font_face";
