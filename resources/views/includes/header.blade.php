@@ -13,16 +13,16 @@
                         class="nav-link rounded-1 {{ Route::currentRouteName() === 'home' ? 'active' : '' }}"
                         href="{{ route('home') }}"
                     >
-                        <i class="fas fa-home me-1"></i> Accueil
+                        <i class="fas fa-home me-1"></i> Classement
                     </a>
                 </li>
 
                 <li class="nav-item me-2">
                     <a
-                        class="nav-link rounded-1 {{ Route::currentRouteName() === 'players_index' ? 'active' : '' }}"
-                        href="{{ route('players_index') }}"
+                        class="nav-link rounded-1 {{ Route::currentRouteName() === 'past_hands_index' ? 'active' : '' }}"
+                        href="{{ route('past_hands_index') }}"
                     >
-                        <i class="fas fa-trophy"></i> Classement
+                        <i class="fas fa-trophy"></i> Historique
                     </a>
                 </li>
 
@@ -38,30 +38,12 @@
         </div>
 
         <ul class="navbar-nav">
-            <li class="nav-item me-2">
+            <li class="nav-item">
                 <a
                     class="nav-link rounded-1 {{ Route::currentRouteName() === 'user_profile_index' ? 'active' : '' }}"
                     href="{{ route('user_profile_index') }}"
                 >
                     <i class="fas fa-user"></i> Profil
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <a
-                    class="nav-link rounded-1"
-                    href="#"
-                >
-                    <i class="fas fa-question-circle"></i> Aide
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <a
-                    class="nav-link rounded-1 {{ Route::currentRouteName() === 'admin_index' ? 'active' : '' }}"
-                    href="{{ route('admin_index') }}"
-                >
-                    <i class="fas fa-gear"></i> Admin
                 </a>
             </li>
         </ul>

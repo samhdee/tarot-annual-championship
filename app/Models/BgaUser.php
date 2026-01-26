@@ -2,22 +2,26 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasTimestamps;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Carbon;
+use URL;
 
 /**
  * @property int $id
  * @property int|null $user_id
  * @property string $bga_username
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property \Illuminate\Support\Carbon|null $deleted_at
- * @property-read \App\Models\User|null $user
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property Carbon|null $deleted_at
+ * @property-read User|null $user
+ * @property-read HandPlayer[]|null $handPlayers
+ * @property-read GamePlayer[]|null $gamePlayers
  * @method static Builder<static>|BgaUser newModelQuery()
  * @method static Builder<static>|BgaUser newQuery()
  * @method static Builder<static>|BgaUser onlyTrashed()
@@ -55,5 +59,19 @@ class BgaUser extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function handPlayers(): HasMany
+    {
+        return $this->hasMany(HandPlayer::class, 'bga_user_id');
+    }
+
+    public function getAvatar(): string
+    {
+        if (file_exists(public_path("/images/bga_{$this->bga_username}.jpg"))) {
+            return URL::asset("/images/bga_{$this->bga_username}.jpg");
+        } else {
+            return URL::asset('/images/not_found.png');
+        }
     }
 }

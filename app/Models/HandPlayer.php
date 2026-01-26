@@ -6,6 +6,7 @@ use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 
@@ -68,5 +69,10 @@ class HandPlayer extends Model
     public function hand(): BelongsTo
     {
         return $this->belongsTo(Hand::class, 'hand_id');
+    }
+
+    public function gamePlayers(): HasMany
+    {
+        return $this->hasMany(GamePlayer::class, 'hand_player_id');
     }
 }

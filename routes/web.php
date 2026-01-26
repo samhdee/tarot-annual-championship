@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\GameController;
-use App\Http\Controllers\HandController;
+use App\Http\Controllers\PastHandsController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MeetController;
 use App\Http\Controllers\PlayersController;
@@ -16,21 +16,16 @@ use Illuminate\Support\Facades\Route;
             Route::get('/', 'index')->name('home');
         });
 
-    Route::controller(HandController::class)
+    Route::controller(PastHandsController::class)
         ->prefix('hand')
         ->group(function () {
+            Route::get('index', 'index')->name('past_hands_index');
             Route::get('add', 'add')->name('hand_add');
         });
 
     Route::controller(GameController::class)
         ->prefix('game')
         ->group(function () {});
-
-    Route::controller(PlayersController::class)
-        ->prefix('players')
-        ->group(function () {
-            Route::get('/', 'index')->name('players_index');
-        });
 
     Route::controller(UserProfileController::class)
         ->prefix('user')
