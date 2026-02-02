@@ -2,9 +2,6 @@
 
 namespace App\Models;
 
-use App\Enums\BGABids;
-use App\Enums\Miseres;
-use App\Enums\Poignees;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -28,8 +25,8 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
- * @property-read \App\Models\Game $game
- * @property-read \App\Models\HandPlayer $handPlayer
+ * @property-read Game $game
+ * @property-read HandPlayer $handPlayer
  * @method static Builder<static>|GamePlayer newModelQuery()
  * @method static Builder<static>|GamePlayer newQuery()
  * @method static Builder<static>|GamePlayer onlyTrashed()

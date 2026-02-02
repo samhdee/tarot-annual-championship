@@ -24,3 +24,5 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
+.phpstorm.meta.php.tmp
+_ide_helper.php.tmp

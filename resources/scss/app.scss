@@ -1,19 +1,75 @@
 @use '@fortawesome/fontawesome-free/css/all.min.css';
-@use 'bootstrap/dist/css/bootstrap.min.css';
 
 @import "mixins";
 @import "font_face";
 
 body {
-    background-color: $t-dark-background;
     font-family: 'Lato', sans-serif;
     color: white;
+
+    h1, h2, h3, h4, h5 {
+        font-family: 'Merriweather', sans-serif;
+    }
+
+    h1 {
+        margin: 1rem .5rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid #8f8e8e;
+        font-size: 1.5rem;
+    }
+
+    h2 {
+        margin: 1rem .5rem;
+        border-bottom: 1px solid #8f8e8e;
+        padding-bottom: 1rem;
+        font-size: 1.2rem;
+    }
+
+    a {
+        color: $t-green-faded;
+
+        &.btn {
+            color: white;
+        }
+
+        &:hover {
+            text-decoration: none;
+        }
+    }
+
+    .text-muted {
+        color: rgb(203, 203, 203) !important;
+    }
+
+    .text-small {
+        font-size: .8rem;
+    }
 
     nav.navbar {
         background-color: $t-green;
 
         a,
-        a:hover {
+        a.nav-link {
+            color: white;
+        }
+
+        a:hover,
+        a:focus,
+        a.nav-link:hover,
+        a.nav-link.show,
+        .nav-link.active {
+            border-radius: 3px;
+            background: white;
+            color: $t-green;
+        }
+
+        .nav-item:not(:last-child) {
+            margin-right: 7px;
+        }
+
+        .dropdown-menu {
+            border: none;
+            background-color: $t-green;
             color: white;
         }
 
@@ -22,44 +78,14 @@ body {
             height: 40px;
         }
 
-        .nav-link:hover,
-        .nav-link.active {
-            background: white;
-            color: $t-green;
+        #nav-brand-admin-separator {
+            left: 80px;
+            height: 40px;
         }
     }
 
     #main-container {
         padding: 1rem;
-
-        h1, h2, h3, h4, h5 {
-            font-family: 'Merriweather', sans-serif;
-        }
-
-        h1 {
-            margin: 1rem .5rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid #8f8e8e;
-            font-size: 1.5rem;
-        }
-
-        h2 {
-            margin: 1rem .5rem;
-            font-size: 1.2rem;
-        }
-
-        a {
-            text-decoration: none;
-            color: white;
-        }
-
-        .text-muted {
-            color: rgb(203, 203, 203) !important;
-        }
-
-        .text-small {
-            font-size: .7rem;
-        }
 
         .pagination {
             li.page-item {
@@ -107,12 +133,60 @@ body {
                 }
 
                 td {
-                    background: $t-dark-background;
-                    color: white;
+                    padding: .9rem .7rem;
+
+                    &:not(.text-center) {
+                        padding-left: 1rem;
+                    }
 
                     .form-control {
                         border: none;
                         background-color: #363535;
+                    }
+                }
+            }
+
+            &.no-outer-borders {
+                thead {
+                    tr {
+                        border-top: none;
+
+                        th {
+                            &:first-child {
+                                 border-top: none !important;
+                                 border-left: none !important;
+                            }
+
+                            &:last-child {
+                                border-right: none !important;
+                            }
+                        }
+                    }
+                }
+
+                tbody {
+                    tr {
+                        border-right: none !important;
+                        border-left: none !important;
+                        vertical-align: middle;
+
+                        &:first-child {
+                            border-top: none !important;
+                        }
+
+                        &:last-child {
+                            border-bottom: none !important;
+                        }
+
+                        td {
+                            &:first-child {
+                                border-left: none !important;
+                            }
+
+                            &:last-child {
+                                border-right: none !important;
+                            }
+                        }
                     }
                 }
             }

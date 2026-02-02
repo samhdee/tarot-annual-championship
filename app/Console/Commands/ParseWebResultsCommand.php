@@ -8,7 +8,6 @@ use App\Models\Game;
 use App\Models\GamePlayer;
 use App\Models\Hand;
 use App\Models\HandPlayer;
-use App\Models\Meet;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Console\Command;
@@ -90,7 +89,7 @@ class ParseWebResultsCommand extends Command
     }
 
     /**
-     * Crée le Meet et la Manche puis renvoie la Manche
+     * Crée la Manche puis renvoie la Manche
      * @param Crawler $crawler
      * @return Hand
      */
@@ -102,25 +101,11 @@ class ParseWebResultsCommand extends Command
             $crawler->filter('#gamelogs .smalltext span')->first()->text()
         );
 
-        $meet_date = $hand_start_date->copy()->startOfDay();
-
-        // Récupération ou création du Meet
-        $meet = Meet::query()
-            ->select('id')
-            ->whereDate('started_at', $meet_date)
-            ->first();
-
-        // @FIXME : Jeter une erreur si problème (genre la date existe déjà)
-        if (empty($meet)) {
-            $meet = Meet::create(['started_at' => $meet_date]);
-        }
-
         $c_bga_hand_id = $crawler->filter('#reviewtitle')->first();
 
         // Création de la Manche
         // @FIXME : create() renvoie pas un false si échec ?
         return Hand::create([
-            'meet_id' => $meet->id,
             'started_at' => $hand_start_date,
             'bga_hand_id' => $c_bga_hand_id->count() > 0
                 && preg_match(self::FIND_HAND_ID, $c_bga_hand_id->text(), $m_bga_hand_id)

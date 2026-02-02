@@ -1,4 +1,27 @@
+@import "bootstrap-scss/functions";
+@import "bootstrap-scss/variables";
+@import "bootstrap-scss/mixins";
+
+// Couleurs
 $t-green: #037867;
 $t-green-faded: #009982;
+$primary: #4357AD;
+$danger: #C1666B;
+$warning: #D4B483;
 
-$t-dark-background: #333;
+// Corps
+$body-bg: #333;
+$body-color: white;
+
+// Tableaux
+$table-color: white;
+
+// Liens
+$link-color: $primary;
+
+@import "../../node_modules/bootstrap/scss/bootstrap";
+
+.btn-primary {
+    background-color: #4357AD !important;
+    border-color: #4357AD !important;
+}

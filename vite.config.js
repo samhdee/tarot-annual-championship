@@ -11,7 +11,8 @@ export default defineConfig({
                 // 'node_modules/jquery/dist/jquery.min.js',
                 'resources/js/app.js',
                 'resources/js/home.js',
-                'resources/js/player-profile.js'
+                'resources/js/player-profile.js',
+                'resources/js/admin.js',
             ],
             refresh: true,
         }),

@@ -1,51 +1,82 @@
 <nav id="main-navbar" class="navbar navbar-expand-lg">
-    <div class="container-fluid d-flex justify-content-between position-relative">
+    <div class="container-fluid justify-content-between position-relative">
         <div class="d-flex justify-content-start align-items-center">
-            <div>
-                <a class="navbar-brand" href="{{ route('home') }}">Tarot ?</a>
-            </div>
-
-            <div id="nav-brand-separator" class="position-absolute border-start"></div>
-
-            <ul class="navbar-nav ms-4">
-                <li class="nav-item me-2">
-                    <a
-                        class="nav-link rounded-1 {{ Route::currentRouteName() === 'home' ? 'active' : '' }}"
-                        href="{{ route('home') }}"
-                    >
-                        <i class="fas fa-home me-1"></i> Classement
+             @if (str_starts_with(Route::currentRouteName(), 'admin'))
+                <div>
+                    <a class="navbar-brand px-1" href="{{ route('home') }}" title="Retour au site">
+                        <i class="fas fa-backward"></i>
+                        <i class="far fa-house text-small"></i>
                     </a>
-                </li>
+                </div>
 
-                <li class="nav-item me-2">
-                    <a
-                        class="nav-link rounded-1 {{ Route::currentRouteName() === 'past_hands_index' ? 'active' : '' }}"
-                        href="{{ route('past_hands_index') }}"
-                    >
-                        <i class="fas fa-trophy"></i> Historique
-                    </a>
-                </li>
+                <div id="nav-brand-admin-separator" class="position-absolute border-start"></div>
 
-                <li class="nav-item me-2">
-                    <a
-                        class="nav-link rounded-1 {{ Route::currentRouteName() === 'hand_add' ? 'active' : '' }}"
-                        href="{{ route('hand_add') }}"
-                    >
-                        <i class="fas fa-plus-circle"></i> Ajouter
-                    </a>
-                </li>
-            </ul>
+                @include('includes.navbar-admin')
+            @else
+                <div>
+                    <a class="navbar-brand" href="{{ route('home') }}">Tarot ?</a>
+                </div>
+
+                <div id="nav-brand-separator" class="position-absolute border-start"></div>
+
+                @include('includes.navbar')
+            @endif
         </div>
 
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a
-                    class="nav-link rounded-1 {{ Route::currentRouteName() === 'user_profile_index' ? 'active' : '' }}"
-                    href="{{ route('user_profile_index') }}"
-                >
-                    <i class="fas fa-user"></i> Profil
-                </a>
-            </li>
+        <ul class="navbar-nav align-items-center">
+            @guest
+                <li class="nav-item dropdown">
+                    <a
+                        id="navbarDropdown"
+                        class="nav-link dropdown-toggle rounded-1"
+                        href="#"
+                        role="button"
+                        data-bs-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                    >
+                        <i class="fas fa-user"></i>
+                    </a>
+
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        @if (Route::has('login'))
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('login') }}">Connexion</a>
+                            </li>
+                        @endif
+
+                        @if (Route::has('register'))
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('register') }}">Créer un compte</a>
+                            </li>
+                        @endif
+                    </ul>
+                </li>
+            @else
+                <li class="nav-item">
+                    <a
+                        class="nav-link rounded-1 {{ Route::currentRouteName() === 'user_profile_index' ? 'active' : '' }}"
+                        href="{{ route('user_profile_index') }}"
+                    >
+                        <i class="fas fa-user"></i> Profil
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a
+                        class="nav-link rounded-1"
+                        href="{{ route('logout') }}"
+                        title="Déconnexion"
+                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                    >
+                        <i class="fas fa-arrow-right-from-bracket"></i>
+                    </a>
+
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        @csrf
+                    </form>
+                </li>
+            @endguest
         </ul>
     </div>
 </nav>

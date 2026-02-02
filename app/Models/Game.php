@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -20,9 +21,9 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\GamePlayer> $players
- * @property-read int|null $game_players_count
- * @property-read \App\Models\Hand $hand
+ * @property-read Hand $hand
+ * @property-read Collection<int, GamePlayer> $players
+ * @property-read int|null $players_count
  * @method static Builder<static>|Game newModelQuery()
  * @method static Builder<static>|Game newQuery()
  * @method static Builder<static>|Game onlyTrashed()

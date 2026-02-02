@@ -14,6 +14,8 @@
 
 <body>
     <div class="container">
+        @csrf
+
         @include('includes.header')
 
         <main id="main-container" class="container mt-4">

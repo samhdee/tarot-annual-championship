@@ -2,12 +2,6 @@
 
 namespace App\Console\Commands;
 
-use App\Models\BgaUser;
-use App\Models\Game;
-use App\Models\GamePlayer;
-use App\Models\Hand;
-use App\Models\HandPlayer;
-use App\Models\Meet;
 use DB;
 use Illuminate\Console\Command;
 use Storage;
@@ -28,7 +22,6 @@ class ResetWebResultsCommand extends Command
         DB::table('games')->delete();
         DB::table('hand_players')->delete();
         DB::table('hands')->delete();
-        DB::table('meets')->delete();
 
         $all_files = Storage::disk('web_results')->allFiles('/parsed');
 

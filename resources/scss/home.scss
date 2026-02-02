@@ -2,56 +2,10 @@
 
 body {
     #scores-list-wrapper {
-        .table {
-            thead {
-                tr {
-                    border-top: none;
-
-                    th {
-                        &:first-child {
-                             border-top: none !important;
-                             border-left: none !important;
-                        }
-
-                        &:last-child {
-                            border-right: none !important;
-                        }
-                    }
-                }
-            }
-
-            tbody {
-                tr {
-                    border-right: none !important;
-                    border-left: none !important;
-                    height: 3.7rem;
-                    vertical-align: middle;
-
-                    &:last-child {
-                        border-bottom: none !important;
-                    }
-
-                    td {
-                        &:not(:first-child):not(:last-child) {
-                            padding-left: 1rem;
-                        }
-
-                        &:first-child {
-                            border-left: none !important;
-                        }
-
-                        &:last-child {
-                            border-right: none !important;
-                        }
-
-                        .player-badge {
-                            border-radius: 50%;
-                            border: 1px solid #dadada;
-                            background: white;
-                        }
-                    }
-                }
-            }
+        .player-badge {
+            border-radius: 50%;
+            border: 1px solid #dadada;
+            background: white;
         }
     }
 }

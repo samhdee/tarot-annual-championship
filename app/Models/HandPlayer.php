@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Eloquent;
+use Barryvdh\LaravelIdeHelper\Eloquent;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -20,6 +21,8 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
  * @property-read BgaUser $bgaUser
+ * @property-read Collection<int, GamePlayer> $gamePlayers
+ * @property-read int|null $game_players_count
  * @property-read Hand $hand
  * @method static Builder<static>|HandPlayer newModelQuery()
  * @method static Builder<static>|HandPlayer newQuery()

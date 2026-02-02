@@ -3,28 +3,30 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Carbon\Carbon;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Notifications\DatabaseNotificationCollection;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Carbon;
 
 /**
  * @property-hidden string|null $password
  * @property int $id
- * @property string $username
- * @property string $name
+ * @property string|null $name
  * @property string $email
- * @property \Illuminate\Support\Carbon|null $last_login_at
- * @property \Illuminate\Support\Carbon|null $email_verified_at
+ * @property Carbon|null $last_login_at
+ * @property Carbon|null $email_verified_at
  * @property string $password
  * @property string|null $remember_token
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property Carbon|null $deleted_at
+ * @property bool $is_active
+ * @property-read BgaUser|null $bgaUser
  * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
  * @method static Builder<static>|User newModelQuery()
@@ -36,12 +38,12 @@ use Illuminate\Notifications\Notifiable;
  * @method static Builder<static>|User whereEmail($value)
  * @method static Builder<static>|User whereEmailVerifiedAt($value)
  * @method static Builder<static>|User whereId($value)
+ * @method static Builder<static>|User whereIsActive($value)
  * @method static Builder<static>|User whereLastLoginAt($value)
  * @method static Builder<static>|User whereName($value)
  * @method static Builder<static>|User wherePassword($value)
  * @method static Builder<static>|User whereRememberToken($value)
  * @method static Builder<static>|User whereUpdatedAt($value)
- * @method static Builder<static>|User whereUsername($value)
  * @method static Builder<static>|User withTrashed(bool $withTrashed = true)
  * @method static Builder<static>|User withoutTrashed()
  * @mixin Eloquent
@@ -60,6 +62,8 @@ class User extends Authenticatable
         'name',
         'email',
         'last_login_at',
+        'password',
+        'is_active',
     ];
 
     /**
@@ -72,6 +76,8 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    protected $with = ['bgaUser'];
+
     /**
      * Get the attributes that should be cast.
      *
@@ -83,9 +89,15 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'last_login_at' => 'datetime',
+            'is_active' => 'boolean',
             'created_at' => 'datetime',
             'updated_at' => 'datetime',
             'deleted_at' => 'datetime',
         ];
+    }
+
+    public function bgaUser(): HasOne
+    {
+        return $this->hasOne(BgaUser::class, 'user_id');
     }
 }

@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Eloquent;
+use Barryvdh\LaravelIdeHelper\Eloquent;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Concerns\HasTimestamps;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -19,9 +20,10 @@ use URL;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
+ * @property bool $is_admin
+ * @property-read Collection<int, HandPlayer> $handPlayers
+ * @property-read int|null $hand_players_count
  * @property-read User|null $user
- * @property-read HandPlayer[]|null $handPlayers
- * @property-read GamePlayer[]|null $gamePlayers
  * @method static Builder<static>|BgaUser newModelQuery()
  * @method static Builder<static>|BgaUser newQuery()
  * @method static Builder<static>|BgaUser onlyTrashed()
@@ -30,6 +32,7 @@ use URL;
  * @method static Builder<static>|BgaUser whereCreatedAt($value)
  * @method static Builder<static>|BgaUser whereDeletedAt($value)
  * @method static Builder<static>|BgaUser whereId($value)
+ * @method static Builder<static>|BgaUser whereIsAdmin($value)
  * @method static Builder<static>|BgaUser whereUpdatedAt($value)
  * @method static Builder<static>|BgaUser whereUserId($value)
  * @method static Builder<static>|BgaUser withTrashed(bool $withTrashed = true)
@@ -45,11 +48,13 @@ class BgaUser extends Model
     protected $fillable = [
         'user_id',
         'bga_username',
+        'is_admin',
     ];
 
     protected function casts(): array
     {
         return [
+            'is_admin' => 'boolean',
             'created_at' => 'datetime',
             'updated_at' => 'datetime',
             'deleted_at' => 'datetime',

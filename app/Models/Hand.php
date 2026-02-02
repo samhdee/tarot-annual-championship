@@ -6,14 +6,12 @@ use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
- * @property int $meet_id
  * @property int|null $bga_hand_id
  * @property string|null $imported_from
  * @property Carbon|null $started_at
@@ -23,9 +21,8 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $deleted_at
  * @property-read Collection<int, Game> $games
  * @property-read int|null $games_count
- * @property Collection<int, HandPlayer> $players
- * @property-read int|null $hand_players_count
- * @property-read Meet $meet
+ * @property-read Collection<int, HandPlayer> $players
+ * @property-read int|null $players_count
  * @method static Builder<static>|Hand newModelQuery()
  * @method static Builder<static>|Hand newQuery()
  * @method static Builder<static>|Hand onlyTrashed()
@@ -36,7 +33,6 @@ use Illuminate\Support\Carbon;
  * @method static Builder<static>|Hand whereEndedAt($value)
  * @method static Builder<static>|Hand whereId($value)
  * @method static Builder<static>|Hand whereImportedFrom($value)
- * @method static Builder<static>|Hand whereMeetId($value)
  * @method static Builder<static>|Hand whereStartedAt($value)
  * @method static Builder<static>|Hand whereUpdatedAt($value)
  * @method static Builder<static>|Hand withTrashed(bool $withTrashed = true)
@@ -50,7 +46,6 @@ class Hand extends Model
     protected $table = 'hands';
 
     protected $fillable = [
-        'meet_id',
         'bga_hand_id',
         'imported_from',
         'started_at',
@@ -66,11 +61,6 @@ class Hand extends Model
             'updated_at' => 'datetime',
             'deleted_at' => 'datetime',
         ];
-    }
-
-    public function meet(): BelongsTo
-    {
-        return $this->belongsTo(Meet::class, 'meet_id');
     }
 
     public function players(): HasMany
