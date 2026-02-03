@@ -58,7 +58,10 @@ class RegisterController extends Controller
                 'required',
                 'int',
                 Rule::exists('bga_users', 'id')->where(function (Builder $query) {
-                    $query->whereNull('user_id');
+                    $query->where(function (Builder $query) {
+                        $query->orWhereNull('user_id')
+                            ->orWhere('user_id', 0);
+                    });
                 }
             )],
             'name' => ['nullable', 'string', 'max:255', 'unique:users'],
@@ -95,7 +98,10 @@ class RegisterController extends Controller
     {
         $unregistered_users = BgaUser::query()
             ->select(['id', 'bga_username'])
-            ->whereNull('user_id')
+            ->where(function ($query) {
+                $query->orWhereNull('user_id')
+                    ->orWhere('user_id', 0);
+            })
             ->orderBy('bga_username')
             ->get();
 

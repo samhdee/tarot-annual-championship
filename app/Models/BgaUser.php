@@ -37,7 +37,7 @@ use URL;
  * @method static Builder<static>|BgaUser whereUserId($value)
  * @method static Builder<static>|BgaUser withTrashed(bool $withTrashed = true)
  * @method static Builder<static>|BgaUser withoutTrashed()
- * @mixin Eloquent
+ // * @mixin Eloquent
  */
 class BgaUser extends Model
 {
