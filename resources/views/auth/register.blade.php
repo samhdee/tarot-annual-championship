@@ -11,17 +11,18 @@
                 <p>Déjà un compte ? <a href="{{ route('login') }}">Se connecter</a></p>
 
                 <div class="mt-5">
-
                     <form method="POST" action="{{ route('register') }}">
                         @csrf
 
                         <div class="row mb-3">
-                            <label for="bga_user_id" class="col-md-4 col-form-label text-md-end">Pseudo BGA</label>
+                            <label for="register-bga_user_id" class="col-md-4 col-form-label text-md-end">Pseudo BGA</label>
 
                             <div class="col-md-6">
                                 <select
+                                    id="register-bga_user_id"
                                     class="form-control form-select"
                                     name="bga_user_id"
+                                    required
                                 >
                                     <option value=""></option>
 
@@ -41,11 +42,11 @@
                         </div>
 
                         <div class="row mb-3">
-                            <label for="name" class="col-md-4 col-form-label text-md-end">Nom (facultatif)</label>
+                            <label for="register-name" class="col-md-4 col-form-label text-md-end">Nom (facultatif)</label>
 
                             <div class="col-md-6">
                                 <input
-                                    id="name"
+                                    id="register-name"
                                     type="text"
                                     class="form-control @error('name') is-invalid @enderror"
                                     name="name"
@@ -62,11 +63,11 @@
                         </div>
 
                         <div class="row mb-3">
-                            <label for="email" class="col-md-4 col-form-label text-md-end">Adresse mail</label>
+                            <label for="register-email" class="col-md-4 col-form-label text-md-end">Adresse mail</label>
 
                             <div class="col-md-6">
                                 <input
-                                    id="email"
+                                    id="register-email"
                                     type="email"
                                     class="form-control @error('email') is-invalid @enderror"
                                     name="email"
@@ -84,11 +85,11 @@
                         </div>
 
                         <div class="row mb-3">
-                            <label for="password" class="col-md-4 col-form-label text-md-end">Mot de passe</label>
+                            <label for="register-password" class="col-md-4 col-form-label text-md-end">Mot de passe</label>
 
                             <div class="col-md-6">
                                 <input
-                                    id="password"
+                                    id="register-password"
                                     type="password"
                                     class="form-control @error('password') is-invalid @enderror"
                                     name="password"
@@ -105,13 +106,13 @@
                         </div>
 
                         <div class="row mb-3">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-end">
+                            <label for="register-password-confirm" class="col-md-4 col-form-label text-md-end">
                                 Confirmer le mot de passe
                             </label>
 
                             <div class="col-md-6">
                                 <input
-                                    id="password-confirm"
+                                    id="register-password-confirm"
                                     type="password"
                                     class="form-control"
                                     name="password_confirmation"
@@ -119,6 +120,16 @@
                                     autocomplete="new-password"
                                 />
                             </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <img src="{{ captcha_src() }}" alt="captcha">
+                            <div class="mt-2"></div>
+                            <input
+                                type="text" name="captcha" class="form-control @error('captcha') is-invalid @enderror" placeholder="Please Insert Captch"
+                                >
+                             @error('captcha')
+                             <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
 
                         <div class="row mb-0">

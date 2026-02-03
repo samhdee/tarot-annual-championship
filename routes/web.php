@@ -7,8 +7,12 @@ use App\Http\Controllers\PastHandsController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserProfileController;
 use Illuminate\Support\Facades\Route;
+use Mews\Captcha\CaptchaController;
 
 Auth::routes();
+
+// Captcha
+Route::controller(CaptchaController::class)->any('/captcha-test');
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/past-hands', [PastHandsController::class, 'index'])->name('past_hands');
