@@ -9,15 +9,16 @@
             <div class="col-md-8">
                 <h2 class="text-center">Créer un compte</h2>
 
-                <p>Déjà un compte ? <a href="{{ route('login') }}">Se connecter</a></p>
+                <p class="mt-4">Déjà un compte ? <a href="{{ route('login') }}">Se connecter</a></p>
 
-                <div class="mt-5">
-
+                <div class="mt-4">
                     <form method="POST" action="{{ route('register') }}">
                         @csrf
 
                         <div class="row mb-3">
-                            <label for="reg-bga_user_id" class="col-md-4 col-form-label text-md-end">Pseudo BGA</label>
+                            <label for="reg-bga_user_id" class="col-md-4 col-form-label text-md-end">
+                                Pseudo BGA *
+                            </label>
 
                             <div class="col-md-6">
                                 <select
@@ -67,7 +68,9 @@
                         </div>
 
                         <div class="row mb-3">
-                            <label for="reg-email" class="col-md-4 col-form-label text-md-end">Adresse mail</label>
+                            <label for="reg-email" class="col-md-4 col-form-label text-md-end">
+                                Adresse mail *
+                            </label>
 
                             <div class="col-md-6">
                                 <input
@@ -89,7 +92,9 @@
                         </div>
 
                         <div class="row mb-3">
-                            <label for="reg-password" class="col-md-4 col-form-label text-md-end">Mot de passe</label>
+                            <label for="reg-password" class="col-md-4 col-form-label text-md-end">
+                                Mot de passe *
+                            </label>
 
                             <div class="col-md-6">
                                 <input
@@ -111,7 +116,7 @@
 
                         <div class="row mb-3">
                             <label for="reg-password-confirm" class="col-md-4 col-form-label text-md-end">
-                                Confirmer le mot de passe
+                                Confirmer le mot de passe *
                             </label>
 
                             <div class="col-md-6">
