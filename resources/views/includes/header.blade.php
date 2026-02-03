@@ -55,16 +55,16 @@
             @else
                 <li class="nav-item">
                     <a
-                        class="nav-link rounded-1 {{ Route::currentRouteName() === 'user_profile_index' ? 'active' : '' }}"
+                        class="nav-link {{ Route::currentRouteName() === 'user_profile_index' ? 'active' : '' }}"
                         href="{{ route('user_profile_index') }}"
                     >
-                        <i class="fas fa-user"></i> Profil
+                        <i class="fas fa-user"></i> {{ auth()->user()->bgaUser->bga_username }}
                     </a>
                 </li>
 
                 <li class="nav-item">
                     <a
-                        class="nav-link rounded-1"
+                        class="nav-link"
                         href="{{ route('logout') }}"
                         title="Déconnexion"
                         onclick="event.preventDefault(); document.getElementById('logout-form').submit();"

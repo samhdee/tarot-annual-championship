@@ -1,3 +1,4 @@
+@php use App\Models\BgaUser; @endphp
 @extends('includes.layout')
 
 @section('title') Créer un compte @endsection
@@ -16,15 +17,19 @@
                         @csrf
 
                         <div class="row mb-3">
-                            <label for="bga_user_id" class="col-md-4 col-form-label text-md-end">Pseudo BGA</label>
+                            <label for="reg-bga_user_id" class="col-md-4 col-form-label text-md-end">Pseudo BGA</label>
 
                             <div class="col-md-6">
                                 <select
-                                    class="form-control form-select"
+                                    id="reg-bga_user_id"
+                                    class="form-control form-select @error('bga_user_id') is-invalid @enderror"
                                     name="bga_user_id"
+                                    required
+                                    autocomplete="off"
                                 >
                                     <option value=""></option>
 
+                                    @php /** @var BgaUser[] $unregistered_users */ @endphp
                                     @foreach ($unregistered_users as $unregistered_user)
                                         <option value="{{ $unregistered_user->id }}">
                                             {{ $unregistered_user->bga_username }}
@@ -41,11 +46,11 @@
                         </div>
 
                         <div class="row mb-3">
-                            <label for="name" class="col-md-4 col-form-label text-md-end">Nom (facultatif)</label>
+                            <label for="reg-name" class="col-md-4 col-form-label text-md-end">Nom (facultatif)</label>
 
                             <div class="col-md-6">
                                 <input
-                                    id="name"
+                                    id="reg-name"
                                     type="text"
                                     class="form-control @error('name') is-invalid @enderror"
                                     name="name"
@@ -62,11 +67,11 @@
                         </div>
 
                         <div class="row mb-3">
-                            <label for="email" class="col-md-4 col-form-label text-md-end">Adresse mail</label>
+                            <label for="reg-email" class="col-md-4 col-form-label text-md-end">Adresse mail</label>
 
                             <div class="col-md-6">
                                 <input
-                                    id="email"
+                                    id="reg-email"
                                     type="email"
                                     class="form-control @error('email') is-invalid @enderror"
                                     name="email"
@@ -84,11 +89,11 @@
                         </div>
 
                         <div class="row mb-3">
-                            <label for="password" class="col-md-4 col-form-label text-md-end">Mot de passe</label>
+                            <label for="reg-password" class="col-md-4 col-form-label text-md-end">Mot de passe</label>
 
                             <div class="col-md-6">
                                 <input
-                                    id="password"
+                                    id="reg-password"
                                     type="password"
                                     class="form-control @error('password') is-invalid @enderror"
                                     name="password"
@@ -105,13 +110,13 @@
                         </div>
 
                         <div class="row mb-3">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-end">
+                            <label for="reg-password-confirm" class="col-md-4 col-form-label text-md-end">
                                 Confirmer le mot de passe
                             </label>
 
                             <div class="col-md-6">
                                 <input
-                                    id="password-confirm"
+                                    id="reg-password-confirm"
                                     type="password"
                                     class="form-control"
                                     name="password_confirmation"

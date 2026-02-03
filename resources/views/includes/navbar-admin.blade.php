@@ -2,7 +2,7 @@
     <li class="nav-item">
         <a
             class="nav-link {{ Route::currentRouteName() === 'admin_users' ? 'active' : '' }}"
-            href="{{ route('home') }}"
+            href="{{ route('admin_users') }}"
         >
             <i class="fas fa-user me-1"></i> Users
         </a>

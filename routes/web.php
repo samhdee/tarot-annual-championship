@@ -34,7 +34,7 @@ Route::middleware(['auth', 'verified', 'active'])->group(function () {
         ->prefix('admin')
         ->group(function () {
             Route::controller(AdminUsersController::class)->group(function () {
-                Route::get('/', 'index')->name('admin_users');
+                Route::get('/users', 'index')->name('admin_users');
                 Route::get('/user/{user_id}/toggleActive/{new_state}', 'switchActive')
                     ->name('admin_users_active');
                 Route::get('/user/{bga_user_id}/toggleAdmin/{new_state}', 'switchAdmin')

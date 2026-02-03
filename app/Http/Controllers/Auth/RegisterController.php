@@ -8,9 +8,11 @@ use App\Models\User;
 use DB;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Throwable;
 
 class RegisterController extends Controller
 {
@@ -69,8 +71,8 @@ class RegisterController extends Controller
      * Create a new user instance after a valid registration.
      *
      * @param array $data
-     * @return \App\Models\User
-     * @throws \Throwable
+     * @return User
+     * @throws Throwable
      */
     protected function create(array $data)
     {
@@ -98,5 +100,14 @@ class RegisterController extends Controller
             ->get();
 
         return view('auth.register', ['unregistered_users' => $unregistered_users]);
+    }
+
+    protected function registered(Request $request, $user)
+    {
+        $request->session()->flash(
+            'success',
+            'Votre compte a bien été créé ! Il est désactivé par défaut, pensez à contacter Sam (tchaymz) ou Julien pour'
+            . ' qu\'on vous l\'active. En attendant, vous pouvez utiliser le site normalement :)'
+        );
     }
 }

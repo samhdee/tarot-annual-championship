@@ -89,29 +89,3 @@
     font-display: swap;
 }
 
-@font-face {
-    font-family: 'Modern Antiqua';
-    src: url('../fonts/ModernAntiqua-Regular.eot');
-    src: local('Modern Antiqua Regular'), local('ModernAntiqua-Regular'),
-        url('../fonts/ModernAntiqua-Regular.eot?#iefix') format('embedded-opentype'),
-        url('../fonts/ModernAntiqua-Regular.woff2') format('woff2'),
-        url('../fonts/ModernAntiqua-Regular.woff') format('woff'),
-        url('../fonts/ModernAntiqua-Regular.ttf') format('truetype');
-    font-weight: 500;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'Metamorphous';
-    src: url('../fonts/Metamorphous.eot');
-    src: local('Metamorphous'),
-        url('../fonts/Metamorphous.eot?#iefix') format('embedded-opentype'),
-        url('../fonts/Metamorphous.woff2') format('woff2'),
-        url('../fonts/Metamorphous.woff') format('woff'),
-        url('../fonts/Metamorphous.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-}
-
