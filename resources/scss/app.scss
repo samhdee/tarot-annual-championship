@@ -104,6 +104,16 @@ body {
             }
         }
 
+        .player-badge {
+            text-decoration: none;
+
+            img {
+                background: white;
+                border-radius: 50%;
+                border: 1px solid #dadada;
+            }
+        }
+
         form {
             .form-control {
                 background-color: #4a4a4a;
