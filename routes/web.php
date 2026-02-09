@@ -3,7 +3,7 @@
 use App\Http\Controllers\Admin\AdminHandsController;
 use App\Http\Controllers\Admin\AdminUsersController;
 use App\Http\Controllers\GameController;
-use App\Http\Controllers\PastHandsController;
+use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserProfileController;
 use Illuminate\Support\Facades\Route;
@@ -11,14 +11,21 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/past-hands', [PastHandsController::class, 'index'])->name('past_hands');
+Route::controller(HistoryController::class)
+    ->prefix('/history')
+    ->group(function () {
+        Route::get('/', 'index')->name('history');
+        Route::get('/sort/{direction}', 'sort')
+            ->name('hand_sort')
+            ->where('direction', 'asc|desc');
+    });
 
 Route::controller(GameController::class)
     ->prefix('game')
     ->group(function () {});
 
 Route::middleware(['auth', 'verified', 'active'])->group(function () {
-    Route::controller(PastHandsController::class)
+    Route::controller(HistoryController::class)
         ->prefix('hand')
         ->group(function () {
             Route::get('add', 'add')->name('hand_add');

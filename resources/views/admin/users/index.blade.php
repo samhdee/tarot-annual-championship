@@ -1,3 +1,5 @@
+@php use App\Models\User; @endphp
+
 @extends('includes.layout')
 
 @section('title') Admin @endsection
@@ -22,6 +24,7 @@
                 </thead>
 
                 <tbody>
+                    @php /** @var User[] $users */ @endphp
                     @forelse ($users as $user)
                         <tr>
                             <td class="text-center">{{ $user->bgaUser->id }}</td>
@@ -36,7 +39,7 @@
                                         type="checkbox"
                                         role="switch"
                                         name="active_state"
-                                        data-url="{{ route('admin_users_active', [
+                                        data-ajax_url="{{ route('admin_users_active', [
                                             'user_id' => $user->id,
                                             'new_state' => empty($user->is_active) ? 1 : 0
                                         ]) }}"
@@ -57,7 +60,7 @@
                                         type="checkbox"
                                         role="switch"
                                         name="admin_state"
-                                        data-url="{{ route('admin_users_admin', [
+                                        data-ajax_url="{{ route('admin_users_admin', [
                                             'bga_user_id' => $user->bgaUser->id,
                                             'new_state' => empty($user->bgaUser->is_admin) ? 1 : 0
                                         ]) }}"

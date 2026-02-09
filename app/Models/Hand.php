@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
+use Throwable;
 
 /**
  * @property int $id
@@ -37,13 +38,15 @@ use Illuminate\Support\Carbon;
  * @method static Builder<static>|Hand whereUpdatedAt($value)
  * @method static Builder<static>|Hand withTrashed(bool $withTrashed = true)
  * @method static Builder<static>|Hand withoutTrashed()
- * @mixin Eloquent
  */
 class Hand extends Model
 {
     use SoftDeletes;
 
     protected $table = 'hands';
+
+    public const int NB_PER_PAGE = 30;
+    public const string BGA_LINK = 'https://boardgamearena.com/table?table=';
 
     protected $fillable = [
         'bga_hand_id',
@@ -71,5 +74,28 @@ class Hand extends Model
     public function games(): HasMany
     {
         return $this->hasMany(Game::class, 'hand_id');
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public static function getHistory($sort = 'desc')
+    {
+        return self::query()
+            ->select(['id', 'bga_hand_id', 'started_at', 'ended_at'])
+            ->with([
+                'players:id,hand_id,bga_user_id,total_points',
+                'players.bgaUser:id,bga_username',
+            ])
+            ->orderBy('started_at', $sort)
+            ->paginate(self::NB_PER_PAGE);
+    }
+
+    /**
+     * @return string
+     */
+    public function getBgaLink(): string
+    {
+        return $this::BGA_LINK . $this->bga_hand_id;
     }
 }

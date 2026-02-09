@@ -10,8 +10,8 @@
 
     <li class="nav-item">
         <a
-            class="nav-link {{ Route::currentRouteName() === 'past_hands' ? 'active' : '' }}"
-            href="{{ route('past_hands') }}"
+            class="nav-link {{ Route::currentRouteName() === 'history' ? 'active' : '' }}"
+            href="{{ route('history') }}"
         >
             <i class="fas fa-clock"></i> Historique
         </a>

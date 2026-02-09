@@ -1,7 +1,13 @@
+@php
+    use Illuminate\Contracts\Support\Htmlable;
+
+    /** @var Htmlable $links */
+@endphp
+
 <section>
     <nav aria-label="Pagination">
         <ul class="pagination justify-content-center">
-            <li class="page-item disabled">
+            <li class="page-item @if ($links->currentPage() === 1) disabled @endif">
                 <span class="page-link d-inline" aria-label="Début">
                     <i aria-hidden="true" class="fas fa-backward-fast"></i>
                 </span>

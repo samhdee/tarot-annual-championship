@@ -34,7 +34,7 @@
                                 <button
                                     role="button"
                                     class="btn btn-sm btn-danger btn-action"
-                                    data-url="{{ route('admin_hands_delete', ['hand_id' => $hand->id]) }}"
+                                    data-ajax_url="{{ route('admin_hands_delete', ['hand_id' => $hand->id]) }}"
                                 >
                                     <i class="fas fa-trash"></i>
                                 </button>
