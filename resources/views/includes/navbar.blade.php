@@ -1,4 +1,4 @@
-<ul class="navbar-nav ms-4">
+<ul class="navbar-nav ms-3">
     <li class="nav-item">
         <a
             class="nav-link {{ Route::currentRouteName() === 'home' ? 'active' : '' }}"

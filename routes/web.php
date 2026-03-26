@@ -5,12 +5,14 @@ use App\Http\Controllers\Admin\AdminUsersController;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PlayerProfileController;
 use App\Http\Controllers\UserProfileController;
 use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+
 Route::controller(HistoryController::class)
     ->prefix('/history')
     ->group(function () {
@@ -18,6 +20,12 @@ Route::controller(HistoryController::class)
         Route::get('/sort/{direction}', 'sort')
             ->name('hand_sort')
             ->where('direction', 'asc|desc');
+    });
+
+Route::controller(PlayerProfileController::class)
+    ->prefix('user')
+    ->group(function () {
+        Route::get('/{player_id}', 'index')->name('player_profile_index');
     });
 
 Route::controller(GameController::class)

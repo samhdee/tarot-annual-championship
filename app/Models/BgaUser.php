@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Barryvdh\LaravelIdeHelper\Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Concerns\HasTimestamps;
@@ -73,10 +72,9 @@ class BgaUser extends Model
 
     public function getAvatar(): string
     {
-        if (file_exists(public_path("/images/bga_{$this->bga_username}.jpg"))) {
-            return URL::asset("/images/bga_{$this->bga_username}.jpg");
-        } else {
-            return URL::asset('/images/not_found.png');
-        }
+        return URL::asset(file_exists(public_path("/images/bga_{$this->bga_username}.jpg"))
+            ? "/images/bga_{$this->bga_username}.jpg"
+            : '/images/not_found.png'
+        );
     }
 }

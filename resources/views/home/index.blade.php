@@ -26,7 +26,10 @@
                                         <i class="fas fa-trophy text-warning me-1"></i>
                                     @endif
 
-                                    <a href="#" title="Voir le profil (bientôt)">
+                                    <a
+                                        href="{{ route('player_profile_index', ['player_id' => $player->id]) }}"
+                                        title="Voir le profil"
+                                    >
                                         {{ $player->bga_username }}
                                     </a>
                                 </td>

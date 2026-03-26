@@ -14,7 +14,7 @@
                 @include('includes.navbar-admin')
             @else
                 <div>
-                    <a class="navbar-brand" href="{{ route('home') }}">Tarot ?</a>
+                    <a class="px-2 navbar-brand" href="{{ route('home') }}">Tarot ?</a>
                 </div>
 
                 <div id="nav-brand-separator" class="position-absolute border-start"></div>

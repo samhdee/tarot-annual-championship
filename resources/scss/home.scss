@@ -2,5 +2,14 @@
 
 body {
     #scores-list-wrapper {
+        .table {
+            tbody {
+                tr:last-child {
+                    td {
+                        border-bottom: none;
+                    }
+                }
+            }
+        }
     }
 }
