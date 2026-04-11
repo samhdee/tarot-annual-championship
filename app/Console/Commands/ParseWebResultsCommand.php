@@ -17,7 +17,7 @@ use Throwable;
 
 class ParseWebResultsCommand extends Command
 {
-    protected $signature = 'web-results:parse';
+    protected $signature = 'results:parse';
 
     protected $description = 'Command description';
 
@@ -25,6 +25,7 @@ class ParseWebResultsCommand extends Command
     private const string FIND_HAND_ID = '/Revoir Tarot #(\d+)/';
     private const string FIND_GAME_START = '/distribue\sune\snouvelle\smain/';
     private const string FIND_PLAYER_BID = '/(\w+)\s(?:(passe|propose\sune\senchère\s:\s(\d)))/i';
+    private const string FIND_GOULASH = '/Tous les joueurs ont passé. Vous jouez cette manche avec la règle du Goulash./i';
     private const string FIND_TAKER = '/(\w+)\sdevient\sle\spreneur/';
     private const string FIND_KING = '/\w+\sappelle\s(\d{3})/';
     private const string FIND_TAKER_PARTNER = '/(\w+)\spossédait\sla\scarte\sappelée/';
@@ -176,6 +177,7 @@ class ParseWebResultsCommand extends Command
         $c_gamelogs->each(
             function (Crawler $node)
             use ($start_date, $hand_players, &$i, &$hand, &$game, &$game_players) {
+            // Remplace les espaces bizarres (insécables, par ex.) par des espaces standards
             $node_text = preg_replace("/\xc2\xa0/", ' ', $node->text());
 
             // Début de partie
@@ -211,6 +213,11 @@ class ParseWebResultsCommand extends Command
                 ];
 
                 $i++;
+            }
+
+            // Joueur.euse prend
+            if (!empty(preg_match(self::FIND_GOULASH, $node_text, $m_taker))) {
+                $game->is_goulash = true;
             }
 
             // Joueur.euse prend

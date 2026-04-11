@@ -17,6 +17,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $started_at
  * @property Carbon|null $ended_at
  * @property string|null $king_colour
+ * @property boolean $is_goulash
  * @property int $contract_points_diff
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
@@ -35,11 +36,11 @@ use Illuminate\Support\Carbon;
  * @method static Builder<static>|Game whereHandId($value)
  * @method static Builder<static>|Game whereId($value)
  * @method static Builder<static>|Game whereKingColour($value)
+ * @method static Builder<static>|Game whereIsGoulash($value)
  * @method static Builder<static>|Game whereStartedAt($value)
  * @method static Builder<static>|Game whereUpdatedAt($value)
  * @method static Builder<static>|Game withTrashed(bool $withTrashed = true)
  * @method static Builder<static>|Game withoutTrashed()
- * @mixin Eloquent
  */
 class Game extends Model
 {

@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 /**
  * @property int $id
@@ -99,12 +100,14 @@ class GamePlayer extends Model
         $results['games'] = self::query()
             ->select([
                 'game_id', 'hand_player_id', 'order', 'bga_bid_id', 'role', 'has_declared_slam', 'misere',
-                'poignee_type', 'poignee_nb_atouts', 'nb_tricks', 'points',
+                'nb_tricks', 'points', 'g.hand_id', 'g.contract_points_diff', 'g.started_at', 'g.king_colour',
+                'g.is_goulash', DB::raw('DATE_FORMAT(g.started_at, "%d-%m-%Y") as game_started_at'),
+
             ])
-            ->with('game:id,contract_points_diff,started_at,king_colour')
             ->join('hand_players as hp', 'hp.id', 'game_players.hand_player_id')
+            ->join('games as g', 'g.id', 'game_players.game_id')
             ->where('hp.bga_user_id', $bga_user_id)
-            ->orderByDesc('game_players.created_at')
+            ->orderBy('g.started_at')
             ->get();
 
         $results['victories'] = $results['games']->filter(function ($item) {

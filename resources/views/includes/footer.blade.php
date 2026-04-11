@@ -1,4 +1,4 @@
-<footer>
+<footer class="mt-5">
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid d-flex justify-content-between align-items-center">
             <div>

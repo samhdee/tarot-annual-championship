@@ -9,16 +9,25 @@ use Throwable;
 
 class ResetWebResultsCommand extends Command
 {
-    protected $signature = 'web-results:reset';
+    protected $signature = 'results:reset';
 
-    protected $description = 'Command description';
+    protected $description = 'Vide la base joueurs, parties, manches, etc..';
 
     /**
      * @throws Throwable
      */
     public function handle(): void
     {
-        DB::table('game_player_scores')->delete();
+        if (!$this->askWithCompletion(
+            '⚠️ Cette commande va vider les tables joueurs, parties, manches, etc.. Continuer ? [Oui] [Non]',
+            ['Oui', 'Non'],
+            'Non'
+        )) {
+            $this->info('Aucune action effectuée.');
+            return;
+        }
+
+        DB::table('game_players')->delete();
         DB::table('games')->delete();
         DB::table('hand_players')->delete();
         DB::table('hands')->delete();
