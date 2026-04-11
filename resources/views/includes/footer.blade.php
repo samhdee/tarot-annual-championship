@@ -1,7 +1,9 @@
 <footer>
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid d-flex justify-content-between align-items-center">
-            <div>Tarot ? &#169;</div>
+            <div>
+                Proudly powered by <a href="https://github.com/chartjs/Chart.js" target="_blank">Charts.js</a>
+            </div>
 
             @if (!str_starts_with(Route::currentRouteName(), 'admin'))
                 <ul class="navbar-nav">

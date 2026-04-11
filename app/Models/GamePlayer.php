@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -48,7 +49,6 @@ use Illuminate\Support\Carbon;
  * @method static Builder<static>|GamePlayer whereUpdatedAt($value)
  * @method static Builder<static>|GamePlayer withTrashed(bool $withTrashed = true)
  * @method static Builder<static>|GamePlayer withoutTrashed()
- * @mixin Eloquent
  */
 class GamePlayer extends Model
 {
@@ -88,5 +88,33 @@ class GamePlayer extends Model
     public function handPlayer(): BelongsTo
     {
         return $this->belongsTo(HandPlayer::class, 'hand_player_id');
+    }
+
+    /**
+     * @param $bga_user_id
+     * @return array
+     */
+    public static function getPlayersGame($bga_user_id): array
+    {
+        $results['games'] = self::query()
+            ->select([
+                'game_id', 'hand_player_id', 'order', 'bga_bid_id', 'role', 'has_declared_slam', 'misere',
+                'poignee_type', 'poignee_nb_atouts', 'nb_tricks', 'points',
+            ])
+            ->with('game:id,contract_points_diff,started_at,king_colour')
+            ->join('hand_players as hp', 'hp.id', 'game_players.hand_player_id')
+            ->where('hp.bga_user_id', $bga_user_id)
+            ->orderByDesc('game_players.created_at')
+            ->get();
+
+        $results['victories'] = $results['games']->filter(function ($item) {
+            return $item->points > 0;
+        })->values();
+
+        $results['winning_bids'] = $results['games']->filter(function ($item) {
+            return !empty($item->bga_bid_id) && $item->points > 0;
+        });
+
+        return $results;
     }
 }

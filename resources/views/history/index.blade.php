@@ -5,7 +5,7 @@
 
 @extends ('includes.layout')
 
-@section('title', 'Accueil')
+@section('title', 'Dernières sessions')
 
 @section('vite_imports')
     @vite(['resources/js/admin.js'])

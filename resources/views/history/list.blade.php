@@ -30,7 +30,7 @@
                 </th>
 
                 <th>Durée</th>
-                <th>Lien</th>
+                <th>Lien BGA</th>
                 <th style="width: 15rem">Joueur.euse.s</th>
                 <th>Vainqueur.euse</th>
                 <th>Points</th>
@@ -41,22 +41,33 @@
         <tbody>
         @php /** @var Hand $hand */ @endphp
         @forelse ($hands as $hand)
+            @php
+                $players_pts_desc = $hand->players->sortByDesc('total_points');
+            @endphp
+
             <tr>
                 <td class="text-center">{{ $hand->started_at->format('d/m/Y') }}</td>
                 <td>{{ ceil($hand->started_at->diffInMinutes($hand->ended_at)) }} minutes</td>
+
                 <td>
-                    <a href="{{ $hand->getBgaLink() }}" target="_blank">
+                    <a
+                        href="{{ $hand->getBgaLink() }}"
+                        target="_blank"
+                        title="Ouvre un nouvel onglet"
+                    >
                         #{{ $hand->bga_hand_id }}
+                        <sup><i class="fas fa-arrow-up-right-from-square"></i></sup>
                     </a>
                 </td>
 
                 <td>
-                    @foreach ($hand->players->sortBy('bgaUser.bga_username') as $hand_player)
-                        <a class="me-1 player-badge" href="#">
+                    @foreach ($players_pts_desc as $hand_player)
+                        <a class="me-1 player-badge" href="{{ route('player_profile_index', $hand_player->bga_user_id) }}">
                             <img
                                 src="{{ $hand_player->bgaUser->getAvatar() }}"
                                 width="25"
                                 alt="{{ substr($hand_player->bgaUser->bga_username, 0, 2) }}"
+                                title="{{ $hand_player->bgaUser->bga_username }}"
                             />
                         </a>
                     @endforeach
@@ -64,7 +75,7 @@
 
                 <td>
                     @php
-                        $winner = $hand->players->sortByDesc('total_points')->first();
+                        $winner = $players_pts_desc->first();
                     @endphp
 
                     <a class="player-badge" href="#">

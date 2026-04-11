@@ -1,4 +1,7 @@
-@php use App\Models\BgaUser;use App\Models\Hand; @endphp
+@php
+    use App\Models\BgaUser;
+    use App\Models\Hand;
+@endphp
 
 @extends ('includes.layout')
 

@@ -25,15 +25,57 @@ body {
         font-size: 1.2rem;
     }
 
+    // FontAwesome with pseudo-CSS
+    .icon::before {
+        display: inline-block;
+        text-rendering: auto;
+        -webkit-font-smoothing: antialiased;
+    }
+
     a {
         color: $t-green-faded;
+        text-decoration: none;
 
         &.btn {
             color: white;
         }
 
-        &:hover {
-            text-decoration: none;
+        &:not(.nav-link):hover {
+            text-decoration: underline;
+        }
+
+        .fa-arrow-up-right-from-square {
+            font-size: .5rem;
+        }
+
+        &[target="_blank"] {
+            position: relative;
+            text-decoration: underline;
+
+            &:hover,
+            &:focus,
+            &:active {
+                color: $body-color !important;
+                background: transparent !important;
+                text-decoration: none !important;
+            }
+
+            &::after {
+                position: absolute;
+                top: 2px;
+                right: -10px;
+                content: '\f08e';
+                font: var(--fa-font-solid);
+                font-size: .5rem;
+
+                &:hover,
+                &:focus,
+                &:active {
+                    color: $body-color !important;
+                    background: transparent !important;
+                    text-decoration: none !important;
+                }
+            }
         }
     }
 
@@ -86,6 +128,15 @@ body {
 
     #main-container {
         padding: 1rem;
+
+        .alert {
+            .btn-close {
+                position: absolute;
+                top: auto;
+                right: 5px;
+                bottom: auto;
+            }
+        }
 
         .pagination {
             li.page-item {
@@ -201,5 +252,9 @@ body {
                 }
             }
         }
+    }
+
+    footer {
+        font-size: .9rem;
     }
 }

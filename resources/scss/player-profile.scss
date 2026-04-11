@@ -1,1 +1,8 @@
 @use 'tui-color-picker/dist/tui-color-picker.css';
+
+#player-stats-wrapper {
+    .card-body {
+        height: 60px;
+        font-size: 1.5rem;
+    }
+}

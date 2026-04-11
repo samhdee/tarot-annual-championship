@@ -36,7 +36,6 @@ use URL;
  * @method static Builder<static>|BgaUser whereUserId($value)
  * @method static Builder<static>|BgaUser withTrashed(bool $withTrashed = true)
  * @method static Builder<static>|BgaUser withoutTrashed()
- // * @mixin Eloquent
  */
 class BgaUser extends Model
 {
@@ -70,11 +69,34 @@ class BgaUser extends Model
         return $this->hasMany(HandPlayer::class, 'bga_user_id');
     }
 
+    public function handPlayersDesc(): HasMany
+    {
+        return $this->hasMany(HandPlayer::class, 'bga_user_id')
+            ->orderByDesc('created_at');
+    }
+
     public function getAvatar(): string
     {
         return URL::asset(file_exists(public_path("/images/bga_{$this->bga_username}.jpg"))
             ? "/images/bga_{$this->bga_username}.jpg"
             : '/images/not_found.png'
         );
+    }
+
+    /**
+     * @param int $bga_user_id
+     * @return BgaUser|null
+     */
+    public static function getPlayerStats(int $bga_user_id): ?BgaUser
+    {
+        $results = self::query()
+            ->select(['id', 'bga_username'])
+            ->with('handPlayersDesc:id,bga_user_id,total_points')
+            ->where('id', $bga_user_id)
+            ->first();
+
+        $results->gamePlayers = GamePlayer::getPlayersGame($bga_user_id);
+
+        return $results;
     }
 }

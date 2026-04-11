@@ -10,7 +10,7 @@ return new class extends Migration {
     {
         Schema::create('bga_users', function (Blueprint $table) {
             $table->increments('id');
-            $table->foreignIdFor(User::class, 'user_id');
+            $table->foreignIdFor(User::class, 'user_id')->nullable();
             $table->string('bga_username')->unique();
             $table->timestamps();
             $table->softDeletes();
