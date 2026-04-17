@@ -33,8 +33,8 @@ class ParseWebResultsCommand extends Command
     private const string FIND_POIGNEE = '/(\w+)\sdéclare\sune\s(\d)\s:\s(\d+)\sAtouts/';
     private const string FIND_PLAYER_TRICK = '/(\w+)\sremporte\sle\spli/';
     private const string FIND_CONTRACT_REUSSI = '/Le\scontrat\sest\sréussi\savec\s(\d+)\spoints\sde\smieux/';
-    private const string FIND_CONTRACT_CHUTE = '/Le\scontrat\sest\schuté\sde\s(\d+)\spoints/';
-    private const string FIND_PLAYER_POINTS = '/(\w+)\s(gagne|perd)\s(\d+)\spoints/';
+    private const string FIND_CONTRACT_CHUTE = '/Le\scontrat\sest\schuté\sde\s(\d+)\spoint(s?)/';
+    private const string FIND_PLAYER_POINTS = '/(\w+)\s(gagne|perd)\s(\d+)\spoint(s?)/';
     private const string FIND_GAME_END = '/Fin de la manche/';
 
     private const array POIGNEES = [1 => 'simple', 2 => 'double', 3 => 'triple', 4 => 'quadruple'];
