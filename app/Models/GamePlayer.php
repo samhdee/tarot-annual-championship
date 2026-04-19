@@ -99,24 +99,34 @@ class GamePlayer extends Model
     {
         $results['games'] = self::query()
             ->select([
-                'game_id', 'hand_player_id', 'order', 'bga_bid_id', 'role', 'has_declared_slam', 'misere',
-                'nb_tricks', 'points', 'g.hand_id', 'g.contract_points_diff', 'g.started_at', 'g.king_colour',
-                'g.is_goulash', DB::raw('DATE_FORMAT(g.started_at, "%d-%m-%Y") as game_started_at'),
-
+                'game_players.id', 'game_id', 'hand_player_id', 'order', 'bga_bid_id', 'role', 'has_declared_slam',
+                'misere', 'nb_tricks', 'points', 'g.hand_id', 'g.contract_points_diff', 'g.started_at', 'g.king_colour',
+                'g.is_goulash', DB::raw('DATE_FORMAT(g.started_at, "%Y-%m-%d") as game_started_at'),
             ])
             ->join('hand_players as hp', 'hp.id', 'game_players.hand_player_id')
             ->join('games as g', 'g.id', 'game_players.game_id')
             ->where('hp.bga_user_id', $bga_user_id)
+            ->orderByDesc('game_started_at')
             ->orderBy('g.started_at')
-            ->get();
+            ->get()
+            ->keyBy('game_id');
 
         $results['victories'] = $results['games']->filter(function ($item) {
             return $item->points > 0;
         })->values();
 
-        $results['winning_bids'] = $results['games']->filter(function ($item) {
-            return !empty($item->bga_bid_id) && $item->points > 0;
-        });
+        // dd($results['winning_bids']->toArray());
+
+        foreach ($results['games'] as &$game) {
+            $game['other_players'] = self::query()
+                ->select(['game_players.id as game_player_id', 'game_players.role', 'game_players.points', 'bu.id as bga_user_id', 'bu.bga_username'])
+                ->join('hand_players as hp', 'hp.id', 'game_players.hand_player_id')
+                ->join('bga_users as bu', 'bu.id', 'hp.bga_user_id')
+                ->where('game_players.id', '!=', $game->id)
+                ->where('game_players.game_id', $game->game_id)
+                ->orderBy('bga_username')
+                ->get();
+        }
 
         return $results;
     }

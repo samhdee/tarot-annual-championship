@@ -2,9 +2,13 @@
 
 namespace App\Enums;
 
+// use Henzeb\Enumhancer\Concerns\Enhancers;
+
 enum PlayerRoles: string
 {
-    case taker = 'Preneur';
+    // use Enhancers;
+
+    case taker = 'Preneur.euse';
     case taker_partner = 'Partenaire';
-    case defender = 'Défenseur';
+    case defender = 'Défenseur.euse';
 }

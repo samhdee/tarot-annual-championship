@@ -1,19 +1,22 @@
 @php
+    use App\Enums\PlayerRoles;
     use App\Models\BgaUser;
-    use App\Models\GamePlayer;use Carbon\Carbon;use Illuminate\Support\Collection;
+    use App\Models\GamePlayer;
+    use Carbon\Carbon;
+    use Illuminate\Support\Collection;
     /** @var BgaUser $player */
 @endphp
 
 @extends ('includes.layout')
 
-@section('title', 'Profil joueur')
+@section('title', 'Profil de ')
 
 @section('vite_imports')
     @vite(['resources/scss/player-profile.scss'])
 @endsection
 
 @section ('content')
-    <div id="player-container">
+    <div id="player-profile-container">
         <h2>{{ $player['hands']->bga_username }}</h2>
 
         {{--        <div id="player-trophies-wrapper" class="mt-5 row justify-content-center gap-2">--}}
@@ -64,7 +67,6 @@
                     <div class="card-header">Tendance</div>
 
                     <div class="card-body text-center">
-                        <i class="fas fa-arrow-trend-up"></i>
                     </div>
                 </div>
             </div>
@@ -83,63 +85,120 @@
         <div id="player-games-wrapper" class="mt-5">
             <h3>Historique de parties</h3>
 
-            <table id="player-history" class="table table-bordered">
+            <table id="player-history" class="mt-4 table table-bordered">
                 <thead>
                     <tr class="text-center align-middle" style="height: 3rem;">
                         <th style="width: 5rem;" rowspan="2">Date</th>
-                        <th style="width: 10rem;" rowspan="2">Score</th>
-                        <th rowspan="2">Partenaire(s)</th>
-                        <th rowspan="2">Adversaires</th>
-                        <th rowspan="2">Plis</th>
-                        <th colspan="3">Prise</th>
+                        <th style="width: 8rem;" rowspan="2">Score</th>
+                        <th rowspan="2" style="width: 3rem;">Plis</th>
+                        <th colspan="4">Prise</th>
+                        <th rowspan="2" colspan="4">Autres joueur.euse.s</th>
+                        <th rowspan="2">Voir</th>
                     </tr>
 
                     <tr class="text-center align-middle" style="height: 3rem;">
-                        <th style="width: 5.5rem;">A pris ?</th>
+                        <th style="width: 5.5rem;">Rôle</th>
+                        <th>Enchère</th>
                         <th style="width: 7rem;">Roi appelé</th>
-                        <th style="width: 10rem;">Chutée/réussie de...</th>
+                        <th style="width: 7rem;">Chuté/<br>Réussi de...</th>
                     </tr>
                 </thead>
 
                 <tbody>
                     @php
-                        /** @var Collection[] $game_players */
-                        $game_players = $player['games']->groupBy('game_started_at');
-                        dump($game_players->toArray());
+                        /** @var Collection[] $hands */
+                        $hands = $player['games']->groupBy('game_started_at');
                     @endphp
 
-                    @foreach ($game_players as $game_started_at => $games)
-                        @foreach($games as $i => $game)
-                            <tr>
+                    @foreach ($hands as $game_started_at => $games)
+                        @foreach ($games as $i => $game)
+                            <tr class="align-middle">
                                 @if ($i === 0)
-                                    <td class="align-middle" rowspan="{{ $games->count() }}">
-                                        {{ Carbon::createFromFormat('d-m-Y', $game_started_at)->format('d/m/Y') }}
+                                    <td
+                                        class="align-middle"
+                                        rowspan="{{ $games->count() }}"
+                                    >
+                                        {{ Carbon::createFromFormat('Y-m-d', $game_started_at)->format('d/m/Y') }}
                                     </td>
                                 @endif
 
-                                <td id="game-{{ $game->game_id }}" class="text-center">
+                                <td
+                                    id="game-{{ $game->game_id }}"
+                                    class="text-center"
+                                    title="{{ Carbon::createFromFormat('Y-m-d H:i:s', $game->started_at)->format('H:i:s') }}"
+                                >
                                     @if (intval($game->points) > 0)
                                         <i class="fs-5 fas fa-trophy text-warning me-1"></i>
-                                        <span class="fw-bold">{{ $game->points }} points</span>
+                                        <span class="fw-bold">{{ $game->points }} pts</span>
                                     @else
-                                        <span class="text-danger">{{ $game->points }} points</span>
+                                        <span class="text-danger">{{ $game->points }} pts</span>
                                     @endif
                                 </td>
 
-                                <td>
-{{--                                    @if ($game->)--}}
-                                </td>
+                                <td>{{ $game->nb_tricks }}</td>
+
+                                @if (!empty($game->role) && in_array($game->role, ['taker', 'taker_partner']))
+                                    <td>
+                                        <x-player_role :role="$game->role"/>
+                                    </td>
+
+                                    <td>
+                                        <x-bid-name :bga_bid_id="$game['bga_bid_id']" />
+                                    </td>
+
+                                    <td>
+                                        <x-king_colour :king_colour="$game->king_colour"/>
+                                    </td>
+
+                                    <td class="{{ $game->contract_points_diff > 0 ? 'fw-bold' : '' }}">
+                                        {{ $game->contract_points_diff }} pts
+                                    </td>
+                                @elseif (!empty($game->is_goulash))
+                                    <td colspan="4">Goulash</td>
+                                @else
+                                    <td colspan="4">Défense</td>
+                                @endif
+
+                                @foreach ($game->other_players as $other_player)
+                                    <td class="other-player-cell" style="width: 9rem;">
+                                        @php
+                                            if (
+                                                empty($game->is_goulash)
+                                                && (
+                                                    $other_player->role === $game->role
+                                                    || $other_player->role === 'taker_partner' && $game->role === 'taker'
+                                                    || $other_player->role === 'taker' && $game->role === 'taker_partner'
+                                            )) {
+                                                $text_colour = 'success';
+                                            } else {
+                                                $text_colour = 'danger';
+                                            }
+                                        @endphp
+
+                                        <a
+                                            class="player-badge text-{{ $text_colour }}"
+                                            href="{{ route('player_profile_index', $other_player->bga_user_id) }}"
+                                        >
+                                            <img
+                                                class="me-1"
+                                                src="{{ BgaUser::getAvatar($other_player->bga_username) }}"
+                                                width="25"
+                                                alt="{{ substr($other_player->bga_username, 0, 2) }}"
+                                            />
+                                            @if (strlen($other_player->bga_username) > 8)
+                                                <span class="text-small">{{ $other_player->bga_username }}</span>
+                                            @else
+                                                {{ $other_player->bga_username }}
+                                            @endif
+                                        </a>
+                                    </td>
+                                @endforeach
 
                                 <td>
-                                    {{--                                    @foreach ($game->pluck())--}}
-
-                                    {{--                                    @endforeach--}}
+                                    <a class="btn btn-sm btn-primary" href="{{ route('game_index', $game->game_id) }}">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
                                 </td>
-
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
                             </tr>
                         @endforeach
                     @endforeach

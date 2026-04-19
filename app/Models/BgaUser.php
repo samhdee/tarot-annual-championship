@@ -75,10 +75,14 @@ class BgaUser extends Model
             ->orderByDesc('created_at');
     }
 
-    public function getAvatar(): string
+    /**
+     * @param $bga_username
+     * @return string
+     */
+    public static function getAvatar($bga_username): string
     {
-        return URL::asset(file_exists(public_path("/images/bga_{$this->bga_username}.jpg"))
-            ? "/images/bga_{$this->bga_username}.jpg"
+        return URL::asset(file_exists(public_path("/images/bga_{$bga_username}.jpg"))
+            ? "/images/bga_{$bga_username}.jpg"
             : '/images/not_found.png'
         );
     }
@@ -99,7 +103,6 @@ class BgaUser extends Model
         $game_player_results = GamePlayer::getPlayersGame($bga_user_id);
         $results['games'] = $game_player_results['games'];
         $results['victories'] = $game_player_results['victories'];
-        $results['winning_bids'] = $game_player_results['winning_bids'];
 
         return $results;
     }

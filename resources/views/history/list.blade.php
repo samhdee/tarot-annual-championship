@@ -1,5 +1,6 @@
 @php
     use App\Models\Hand;
+    use App\Models\BgaUser;
     use Illuminate\Contracts\Pagination\LengthAwarePaginator;
     /** @var LengthAwarePaginator $hands */
 @endphp
@@ -56,7 +57,6 @@
                         title="Ouvre un nouvel onglet"
                     >
                         #{{ $hand->bga_hand_id }}
-                        <sup><i class="fas fa-arrow-up-right-from-square"></i></sup>
                     </a>
                 </td>
 
@@ -64,7 +64,7 @@
                     @foreach ($players_pts_desc as $hand_player)
                         <a class="me-1 player-badge" href="{{ route('player_profile_index', $hand_player->bga_user_id) }}">
                             <img
-                                src="{{ $hand_player->bgaUser->getAvatar() }}"
+                                src="{{ BgaUser::getAvatar($hand_player->bgaUser->bga_username) }}"
                                 width="25"
                                 alt="{{ substr($hand_player->bgaUser->bga_username, 0, 2) }}"
                                 title="{{ $hand_player->bgaUser->bga_username }}"
@@ -81,7 +81,7 @@
                     <a class="player-badge" href="#">
                         <img
                             class="me-2"
-                            src="{{ $winner->bgaUser->getAvatar() }}"
+                            src="{{ BgaUser::getAvatar($winner->bgaUser->bga_username) }}"
                             width="40"
                             alt="{{ substr($winner->bgaUser->bga_username, 0, 2) }}"
                         />

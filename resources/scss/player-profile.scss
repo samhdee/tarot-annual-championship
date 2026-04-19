@@ -1,8 +1,30 @@
 @use 'tui-color-picker/dist/tui-color-picker.css';
 
-#player-stats-wrapper {
-    .card-body {
-        height: 60px;
-        font-size: 1.5rem;
+#player-profile-container {
+    #player-stats-wrapper {
+        .card-body {
+            height: 60px;
+            font-size: 1.5rem;
+        }
+    }
+
+    #player-games-wrapper {
+        table {
+            td {
+                text-align: center;
+
+                &.other-player-cell {
+                    padding: .9rem .5rem;
+
+                    &:not(:last-child) {
+                        border-right: none;
+                    }
+
+                    &:not(:first-child) {
+                        border-left: none;
+                    }
+                }
+            }
+        }
     }
 }
