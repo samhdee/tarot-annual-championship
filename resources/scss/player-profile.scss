@@ -14,8 +14,6 @@
                 text-align: center;
 
                 &.other-player-cell {
-                    padding: .9rem .5rem;
-
                     &:not(:last-child) {
                         border-right: none;
                     }

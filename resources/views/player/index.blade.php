@@ -88,8 +88,8 @@
             <table id="player-history" class="mt-4 table table-bordered">
                 <thead>
                     <tr class="text-center align-middle" style="height: 3rem;">
-                        <th style="width: 5rem;" rowspan="2">Date</th>
-                        <th style="width: 8rem;" rowspan="2">Score</th>
+                        <th rowspan="2" style="width: 5.5rem;">Date</th>
+                        <th rowspan="2" style="width: 8rem;">Score</th>
                         <th rowspan="2" style="width: 3rem;">Plis</th>
                         <th colspan="4">Prise</th>
                         <th rowspan="2" colspan="4">Autres joueur.euse.s</th>
@@ -98,9 +98,9 @@
 
                     <tr class="text-center align-middle" style="height: 3rem;">
                         <th style="width: 5.5rem;">Rôle</th>
-                        <th>Enchère</th>
-                        <th style="width: 7rem;">Roi appelé</th>
-                        <th style="width: 7rem;">Chuté/<br>Réussi de...</th>
+                        <th style="width: 5.5rem;">Enchère</th>
+                        <th style="width: 3rem;">Roi</th>
+                        <th style="width: 5rem;">Chuté/<br>Réussi</th>
                     </tr>
                 </thead>
 
@@ -129,9 +129,9 @@
                                 >
                                     @if (intval($game->points) > 0)
                                         <i class="fs-5 fas fa-trophy text-warning me-1"></i>
-                                        <span class="fw-bold">{{ $game->points }} pts</span>
+                                        <span class="fw-bold">{{ $game->points }}&nbsp;pts</span>
                                     @else
-                                        <span class="text-danger">{{ $game->points }} pts</span>
+                                        <span class="text-danger">{{ $game->points }}&nbsp;pts</span>
                                     @endif
                                 </td>
 
@@ -150,7 +150,11 @@
                                         <x-king_colour :king_colour="$game->king_colour"/>
                                     </td>
 
-                                    <td class="{{ $game->contract_points_diff > 0 ? 'fw-bold' : '' }}">
+                                    <td class="@if ($game->contract_points_diff > 0)
+                                        fw-bold
+                                    @elseif (intval($game->points) > 0)
+                                        text-danger
+                                    @endif">
                                         {{ $game->contract_points_diff }} pts
                                     </td>
                                 @elseif (!empty($game->is_goulash))
@@ -160,37 +164,22 @@
                                 @endif
 
                                 @foreach ($game->other_players as $other_player)
-                                    <td class="other-player-cell" style="width: 9rem;">
-                                        @php
-                                            if (
-                                                empty($game->is_goulash)
-                                                && (
-                                                    $other_player->role === $game->role
-                                                    || $other_player->role === 'taker_partner' && $game->role === 'taker'
-                                                    || $other_player->role === 'taker' && $game->role === 'taker_partner'
-                                            )) {
-                                                $text_colour = 'success';
-                                            } else {
-                                                $text_colour = 'danger';
-                                            }
-                                        @endphp
+                                    <td class="ps-1 pe-2 text-end other-player-cell" style="width: 9.5rem;">
+                                        @if (
+                                            empty($game->is_goulash)
+                                            && (
+                                                $other_player->role === $game->role
+                                                || $other_player->role === 'taker_partner' && $game->role === 'taker'
+                                                || $other_player->role === 'taker' && $game->role === 'taker_partner'
+                                        ))
+                                            🤝
+                                        @endif
 
-                                        <a
-                                            class="player-badge text-{{ $text_colour }}"
-                                            href="{{ route('player_profile_index', $other_player->bga_user_id) }}"
-                                        >
-                                            <img
-                                                class="me-1"
-                                                src="{{ BgaUser::getAvatar($other_player->bga_username) }}"
-                                                width="25"
-                                                alt="{{ substr($other_player->bga_username, 0, 2) }}"
-                                            />
-                                            @if (strlen($other_player->bga_username) > 8)
-                                                <span class="text-small">{{ $other_player->bga_username }}</span>
-                                            @else
-                                                {{ $other_player->bga_username }}
-                                            @endif
-                                        </a>
+                                        <x-player-badge
+                                            :bga_user_id="$other_player->bga_user_id"
+                                            :bga_username="$other_player->bga_username"
+                                            :dec_fs="true"
+                                        />
                                     </td>
                                 @endforeach
 

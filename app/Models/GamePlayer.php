@@ -99,8 +99,8 @@ class GamePlayer extends Model
     {
         $results['games'] = self::query()
             ->select([
-                'game_players.id', 'game_id', 'hand_player_id', 'order', 'bga_bid_id', 'role', 'has_declared_slam',
-                'misere', 'nb_tricks', 'points', 'g.hand_id', 'g.contract_points_diff', 'g.started_at', 'g.king_colour',
+                'game_players.id', 'game_id', 'hand_player_id', 'bga_bid_id', 'role',
+                'nb_tricks', 'points', 'g.contract_points_diff', 'g.started_at', 'g.king_colour',
                 'g.is_goulash', DB::raw('DATE_FORMAT(g.started_at, "%Y-%m-%d") as game_started_at'),
             ])
             ->join('hand_players as hp', 'hp.id', 'game_players.hand_player_id')
