@@ -89,18 +89,18 @@
                 <thead>
                     <tr class="text-center align-middle" style="height: 3rem;">
                         <th rowspan="2" style="width: 5.5rem;">Date</th>
-                        <th rowspan="2" style="width: 8rem;">Score</th>
-                        <th rowspan="2" style="width: 3rem;">Plis</th>
+                        <th rowspan="2">Score</th>
+                        <th rowspan="2">Plis</th>
                         <th colspan="4">Prise</th>
                         <th rowspan="2" colspan="4">Autres joueur.euse.s</th>
-                        <th rowspan="2">Voir</th>
+                        <th rowspan="2" style="width: 5rem;">Voir</th>
                     </tr>
 
                     <tr class="text-center align-middle" style="height: 3rem;">
-                        <th style="width: 5.5rem;">Rôle</th>
-                        <th style="width: 5.5rem;">Enchère</th>
-                        <th style="width: 3rem;">Roi</th>
-                        <th style="width: 5rem;">Chuté/<br>Réussi</th>
+                        <th>Rôle</th>
+                        <th>Enchère</th>
+                        <th>Roi</th>
+                        <th>Chuté/<br>Réussi</th>
                     </tr>
                 </thead>
 
@@ -164,27 +164,31 @@
                                 @endif
 
                                 @foreach ($game->other_players as $other_player)
-                                    <td class="ps-1 pe-2 text-end other-player-cell" style="width: 9.5rem;">
-                                        @if (
-                                            empty($game->is_goulash)
-                                            && (
-                                                $other_player->role === $game->role
-                                                || $other_player->role === 'taker_partner' && $game->role === 'taker'
-                                                || $other_player->role === 'taker' && $game->role === 'taker_partner'
-                                        ))
-                                            🤝
-                                        @endif
+                                    <td class="text-start other-player-cell" style="width: 6rem;">
+                                        <div class="d-flex align-items-end">
+                                            <x-player-badge
+                                                :bga_user_id="$other_player->bga_user_id"
+                                                :bga_username="$other_player->bga_username"
+                                                :badge_width="40"
+                                                :show_name="false"
+                                            />
 
-                                        <x-player-badge
-                                            :bga_user_id="$other_player->bga_user_id"
-                                            :bga_username="$other_player->bga_username"
-                                            :dec_fs="true"
-                                        />
-                                    </td>
+                                            @if (
+                                                empty($game->is_goulash)
+                                                && (
+                                                    $other_player->role === $game->role
+                                                    || $other_player->role === 'taker_partner' && $game->role === 'taker'
+                                                    || $other_player->role === 'taker' && $game->role === 'taker_partner'
+                                            ))
+                                                <i class="text-small fas fa-handshake"></i>
+                                        @endif
+                                    </div>
+                                </td>
                                 @endforeach
 
                                 <td>
-                                    <a class="btn btn-sm btn-primary" href="{{ route('game_index', $game->game_id) }}">
+                                    <a class="btn btn-sm btn-primary"
+                                       href="{{ route('game_index', $game->game_id) }}">
                                         <i class="fas fa-eye"></i>
                                     </a>
                                 </td>

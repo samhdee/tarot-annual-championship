@@ -31,7 +31,7 @@
                 </div>
 
                 <p>
-                    <a href="{{ route('home') }}">Retourner à l&rsquo;accueil</a>
+                    <a href="/">Retourner à l&rsquo;accueil</a>
                 </p>
             </div>
         </div>
