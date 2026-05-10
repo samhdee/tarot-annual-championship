@@ -1,13 +1,16 @@
-@import "bootstrap-scss/functions";
-@import "bootstrap-scss/variables";
-@import "bootstrap-scss/mixins";
+@use '@fortawesome/fontawesome-free/css/all.min.css';
+@use '@fortawesome/fontawesome-free/css/brands.min.css';
+
+:root {
+  color-scheme: dark;
+}
 
 // Couleurs
 $t-green: #037867;
 $t-green-faded: #009982;
 $primary: #4357AD;
 $danger: #C1666B;
-$warning: #D4B483;
+$warning: #ffc107;
 
 // Corps
 $body-bg: #333;
@@ -21,6 +24,7 @@ $link-color: $primary;
 
 // Cards
 $card-bg: #414141;
+$card-cap-bg: #414141;
 
 @import "../../node_modules/bootstrap/scss/bootstrap";
 
@@ -28,3 +32,5 @@ $card-bg: #414141;
     background-color: #4357AD !important;
     border-color: #4357AD !important;
 }
+
+@import 'select2/dist/css/select2.min.css';

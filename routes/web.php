@@ -23,14 +23,17 @@ Route::controller(HistoryController::class)
     });
 
 Route::controller(PlayerProfileController::class)
-    ->prefix('user')
+    ->prefix('player')
     ->group(function () {
         Route::get('/{player_id}', 'index')->name('player_profile_index');
+        Route::get('/history/{game_date}', 'history')->name('player_profile_history');
     });
 
 Route::controller(GameController::class)
     ->prefix('game')
-    ->group(function () {});
+    ->group(function () {
+        Route::get('/view/{game_id}', 'index')->name('game_index');
+    });
 
 Route::middleware(['auth', 'verified', 'active'])->group(function () {
     Route::controller(HistoryController::class)

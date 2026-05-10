@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 /**
  * @property int $id
@@ -75,5 +76,28 @@ class Game extends Model
     public function players(): HasMany
     {
         return $this->hasMany(GamePlayer::class, 'game_id');
+    }
+
+    public function playersByOrder(): HasMany
+    {
+        return $this->hasMany(GamePlayer::class, 'game_id')->orderBy('order');
+    }
+
+    /**
+     * @param int $game_id
+     * @return Game
+     */
+    public static function getGameInfo(int $game_id): Game
+    {
+        return self::query()
+            ->select([
+                'id', 'king_colour', 'contract_points_diff', 'started_at', 'is_goulash',
+                DB::raw('DATE_FORMAT(started_at, "%Y-%m-%d") as game_date'),
+            ])
+            ->with('playersByOrder:id,game_id,hand_player_id,role,nb_tricks,points')
+            ->with('playersByOrder.handPlayer.bgaUser:id,bga_username')
+            ->where('id', $game_id)
+            ->orderBy('started_at')
+            ->first();
     }
 }

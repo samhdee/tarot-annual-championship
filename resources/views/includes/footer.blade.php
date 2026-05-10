@@ -2,7 +2,13 @@
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid d-flex justify-content-between align-items-center">
             <div>
-                Proudly powered by <a href="https://github.com/chartjs/Chart.js" target="_blank">Charts.js</a>
+                <a href="https://github.com/samhdee/tarot-annual-championship" target="_blank">
+                    <i class="fab fa-github"></i>
+                </a>
+
+                -
+
+                Proudly powered by <a href="https://github.com/chartjs/Chart.js" class="with-target-icon" target="_blank">Charts.js</a>
             </div>
 
             @if (!str_starts_with(Route::currentRouteName(), 'admin'))

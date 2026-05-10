@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\PlayerRoles;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -95,9 +96,9 @@ class GamePlayer extends Model
      * @param $bga_user_id
      * @return array
      */
-    public static function getPlayersGame($bga_user_id): array
+    public static function getPlayersGames($bga_user_id): array
     {
-        $results['games'] = self::query()
+        $results['game_players'] = self::query()
             ->select([
                 'game_players.id', 'game_id', 'hand_player_id', 'bga_bid_id', 'role',
                 'nb_tricks', 'points', 'g.contract_points_diff', 'g.started_at', 'g.king_colour',
@@ -111,22 +112,17 @@ class GamePlayer extends Model
             ->get()
             ->keyBy('game_id');
 
-        $results['victories'] = $results['games']->filter(function ($item) {
+        $results['victories'] = $results['game_players']->filter(function ($item) {
             return $item->points > 0;
         })->values();
 
-        // dd($results['winning_bids']->toArray());
+        $results['takes'] = $results['game_players']->filter(function ($item) {
+            return $item->role === PlayerRoles::taker->name;
+        })->values();
 
-        foreach ($results['games'] as &$game) {
-            $game['other_players'] = self::query()
-                ->select(['game_players.id as game_player_id', 'game_players.role', 'game_players.points', 'bu.id as bga_user_id', 'bu.bga_username'])
-                ->join('hand_players as hp', 'hp.id', 'game_players.hand_player_id')
-                ->join('bga_users as bu', 'bu.id', 'hp.bga_user_id')
-                ->where('game_players.id', '!=', $game->id)
-                ->where('game_players.game_id', $game->game_id)
-                ->orderBy('bga_username')
-                ->get();
-        }
+        $results['successful_takes'] = $results['game_players']->filter(function ($item) {
+            return $item->role === PlayerRoles::taker->name && $item->points > 0;
+        })->values();
 
         return $results;
     }
