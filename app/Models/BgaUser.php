@@ -100,12 +100,6 @@ class BgaUser extends Model
             ->where('id', $bga_user_id)
             ->first();
 
-        $game_player_results = GamePlayer::getPlayersGames($bga_user_id);
-        $results['game_players'] = $game_player_results['game_players'];
-        $results['victories'] = $game_player_results['victories'];
-        $results['takes'] = $game_player_results['takes'];
-        $results['successful_takes'] = $game_player_results['successful_takes'];
-
-        return $results;
+        return array_merge($results, GamePlayer::getPlayerGames($bga_user_id));
     }
 }

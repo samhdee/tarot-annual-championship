@@ -103,10 +103,11 @@ class Game extends Model
     }
 
     /**
-     * @param $date
+     * @param int $player_id
+     * @param string $date
      * @return SupportCollection
      */
-    public static function getPlayerGamesByDate($player_id, $date): SupportCollection
+    public static function getPlayerGamesByDate(int $player_id, string $date): SupportCollection
     {
         $results = self::query()
             ->select([
@@ -120,7 +121,7 @@ class Game extends Model
             ->orderBy('games.started_at')
             ->get();
 
-        // /** @var GamePlayer $game */
+        /** @var GamePlayer $game */
         foreach ($results as &$game) {
             $game['other_players'] = GamePlayer::query()
                 ->select([

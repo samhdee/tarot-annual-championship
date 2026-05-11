@@ -1,3 +1,5 @@
+import Chart from 'chart.js/auto';
+
 import { spinner } from "./app.js";
 
 const getHistory = game_date => {
@@ -15,5 +17,35 @@ $(function () {
 
     $('#player-history-date').change(e => {
         getHistory($('#player-history-date').val());
+    });
+});
+
+$(document).ready(() => {
+    document.querySelectorAll('.player-chart').forEach((canvas) => {
+        const dataset = JSON.parse(canvas.dataset.values);
+
+        new Chart(canvas, {
+            type: 'bar',
+            data: {
+                labels: dataset.labels,
+                datasets: [{
+                    label: canvas.dataset.title,
+                    data: dataset.values
+                }],
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                        ticks: {
+                            callback: function (value) {
+                                return `${value}%`;
+                            }
+                        }
+                    }
+                }
+            },
+        });
     });
 });

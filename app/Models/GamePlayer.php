@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\BGABids;
 use App\Enums\PlayerRoles;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
@@ -96,13 +97,13 @@ class GamePlayer extends Model
      * @param $bga_user_id
      * @return array
      */
-    public static function getPlayersGames($bga_user_id): array
+    public static function getPlayerGames($bga_user_id): array
     {
         $results['game_players'] = self::query()
             ->select([
                 'game_players.id', 'game_id', 'hand_player_id', 'bga_bid_id', 'role',
-                'nb_tricks', 'points', 'g.contract_points_diff', 'g.started_at', 'g.king_colour',
-                'g.is_goulash', DB::raw('DATE_FORMAT(g.started_at, "%Y-%m-%d") as game_started_at'),
+                'points', 'g.contract_points_diff', 'g.started_at', 'g.is_goulash',
+                DB::raw('DATE_FORMAT(g.started_at, "%Y-%m-%d") as game_started_at'),
             ])
             ->join('hand_players as hp', 'hp.id', 'game_players.hand_player_id')
             ->join('games as g', 'g.id', 'game_players.game_id')
@@ -123,6 +124,38 @@ class GamePlayer extends Model
         $results['successful_takes'] = $results['game_players']->filter(function ($item) {
             return $item->role === PlayerRoles::taker->name && $item->points > 0;
         })->values();
+        $results['stats_takes'] = [
+            'labels' => ['Garde', 'Garde sans', 'Garde contre'],
+            'values' => [
+                number_format(100 *
+                    $results['game_players']->filter(function ($item) {
+                        return $item->bga_bid_id == BGABids::GARDE->value && $item->points > 0;
+                    })->count() /
+                    $results['game_players']->filter(function ($item) {
+                        return $item->bga_bid_id == BGABids::GARDE->value;
+                    })->count(),
+                    2
+                ),
+                number_format(100 *
+                    $results['game_players']->filter(function ($item) {
+                        return $item->bga_bid_id == BGABids::GARDE_SANS->value && $item->points > 0;
+                    })->count() /
+                    $results['game_players']->filter(function ($item) {
+                        return $item->bga_bid_id == BGABids::GARDE_SANS->value;
+                    })->count(),
+                    2
+                ),
+                number_format(100 *
+                    $results['game_players']->filter(function ($item) {
+                        return $item->bga_bid_id == BGABids::GARDE_CONTRE->value && $item->points > 0;
+                    })->count() /
+                    $results['game_players']->filter(function ($item) {
+                        return $item->bga_bid_id == BGABids::GARDE_CONTRE->value;
+                    })->count(),
+                    2
+                ),
+            ],
+        ];
 
         return $results;
     }
