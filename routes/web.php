@@ -26,7 +26,7 @@ Route::controller(PlayerProfileController::class)
     ->prefix('player')
     ->group(function () {
         Route::get('/{player_id}', 'index')->name('player_profile_index');
-        Route::get('/history/{game_date}', 'history')->name('player_profile_history');
+        Route::get('/{player_id}/history/{game_date}', 'history')->name('player_profile_history');
     });
 
 Route::controller(GameController::class)

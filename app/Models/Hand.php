@@ -99,39 +99,4 @@ class Hand extends Model
     {
         return $this::BGA_LINK . $this->bga_hand_id;
     }
-
-    /**
-     * @param $date
-     * @return SupportCollection
-     */
-    public static function getOneHandGames($date): SupportCollection
-    {
-        $results = self::query()
-            ->select([
-                'gp.id', 'gp.game_id', 'gp.hand_player_id', 'gp.bga_bid_id', 'gp.role', 'gp.nb_tricks', 'gp.points',
-                'g.contract_points_diff', 'g.started_at', 'g.king_colour', 'g.is_goulash',
-            ])
-            ->join('games as g', 'g.hand_id', 'hands.id')
-            ->join('game_players as gp', 'gp.game_id', 'g.id')
-            ->whereDate('hands.started_at', $date)
-            ->orderBy('g.started_at')
-            ->get();
-
-        /** @var GamePlayer $game */
-        foreach ($results as &$game) {
-            $game['other_players'] = GamePlayer::query()
-                ->select([
-                    'game_players.id as game_player_id', 'game_players.role', 'game_players.points',
-                    'bu.id as bga_user_id', 'bu.bga_username'
-                ])
-                ->join('hand_players as hp', 'hp.id', 'game_players.hand_player_id')
-                ->join('bga_users as bu', 'bu.id', 'hp.bga_user_id')
-                ->where('game_players.id', '!=', $game->id)
-                ->where('game_players.game_id', $game->game_id)
-                ->orderBy('bga_username')
-                ->get();
-        }
-
-        return $results;
-    }
 }

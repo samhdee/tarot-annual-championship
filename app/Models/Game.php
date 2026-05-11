@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection as SupportCollection;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -99,5 +100,41 @@ class Game extends Model
             ->where('id', $game_id)
             ->orderBy('started_at')
             ->first();
+    }
+
+    /**
+     * @param $date
+     * @return SupportCollection
+     */
+    public static function getPlayerGamesByDate($player_id, $date): SupportCollection
+    {
+        $results = self::query()
+            ->select([
+                'gp.id', 'gp.game_id', 'gp.hand_player_id', 'gp.bga_bid_id', 'gp.role', 'gp.nb_tricks', 'gp.points',
+                'games.contract_points_diff', 'games.started_at', 'games.king_colour', 'games.is_goulash',
+            ])
+            ->join('game_players as gp', 'gp.game_id', 'games.id')
+            ->join('hand_players as hp', 'hp.id', 'gp.hand_player_id')
+            ->whereDate('games.started_at', $date)
+            ->where('hp.bga_user_id', $player_id)
+            ->orderBy('games.started_at')
+            ->get();
+
+        // /** @var GamePlayer $game */
+        foreach ($results as &$game) {
+            $game['other_players'] = GamePlayer::query()
+                ->select([
+                    'game_players.id as game_player_id', 'game_players.role', 'game_players.points',
+                    'bu.id as bga_user_id', 'bu.bga_username'
+                ])
+                ->join('hand_players as hp', 'hp.id', 'game_players.hand_player_id')
+                ->join('bga_users as bu', 'bu.id', 'hp.bga_user_id')
+                ->where('game_players.id', '!=', $game->id)
+                ->where('game_players.game_id', $game->game_id)
+                ->orderBy('bga_username')
+                ->get();
+        }
+
+        return $results;
     }
 }
