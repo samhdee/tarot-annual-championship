@@ -6,14 +6,14 @@
             <div class="card-header text-center">Taux de prise</div>
 
             <div class="card-body p-1 text-center">
-                @if ($player['takes']->isNotEmpty())
+                @if ($takes->isNotEmpty())
                     {{ number_format(
-                        100 * $player['takes']->count() / $player['game_players']->count(),
+                        100 * $takes->count() / $game_players->count(),
                         2,
                         ','
                     ) }}%
                     <br>
-                    ({{ $player['takes']->count() }} prises)
+                    ({{ $takes->count() }} prises)
                 @else
                     0%
                     <br>
@@ -27,10 +27,10 @@
             <div class="card-header text-center">Taux de victoire</div>
 
             <div class="card-body p-1 text-center">
-                @if ($player['game_players']->isNotEmpty())
-                    {{ number_format(100 * $player['successful_takes']->count() / $player['takes']->count(), 2, ',') }}%
+                @if ($game_players->isNotEmpty())
+                    {{ number_format(100 * $successful_takes->count() / $takes->count(), 2, ',') }}%
                     <br>
-                    ({{ $player['successful_takes']->count() }} victoires)
+                    ({{ $successful_takes->count() }} victoires)
                 @else
                     0%
                 @endif
@@ -43,7 +43,7 @@
             <div class="card-header text-center">Score moyen</div>
 
             <div class="card-body text-center">
-                {{ number_format($player['takes']->pluck('points')->sum() / $player['takes']->count(), 2, ',') }} pts
+                {{ number_format($takes->pluck('points')->sum() / $takes->count(), 2, ',') }} pts
             </div>
         </div>
     </div>
@@ -62,12 +62,12 @@
     <div class="col-5">
         <div>Victoires par type de contrat :</div>
 
-        <canvas id="player-stats-takes" class="mt-3 player-chart" data-values='@json($player['stats_takes'])' data-title="Contrats"></canvas>
+        <canvas id="player-stats-takes" class="mt-3 player-chart" data-values='@json($stats_takes)' data-title="Contrats"></canvas>
     </div>
 
     <div class="col-6">
         <div>Victoires par partenaire :</div>
 
-        <canvas id="player-stats-partner" class="mt-3 player-chart" data-values='@json($player['stats_partners'])' data-title="Partenaires"></canvas>
+        <canvas id="player-stats-partner" class="mt-3 player-chart" data-values='@json($stats_partners)' data-title="Partenaires"></canvas>
     </div>
 </div>

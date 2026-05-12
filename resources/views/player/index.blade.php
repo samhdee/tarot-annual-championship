@@ -10,7 +10,7 @@
 
 @extends ('includes.layout')
 
-@section('title', 'Profil de ' . $player['hands']->bga_username)
+@section('title', 'Profil de ' . $hands->bga_username)
 
 @section('vite_imports')
     @vite(['resources/scss/player-profile.scss', 'resources/js/player-profile.js'])
@@ -18,37 +18,37 @@
 
 @section ('content')
     <div id="player-profile-container">
-        <h2>{{ $player['hands']->bga_username }}</h2>
+        <h2>{{ $hands->bga_username }}</h2>
 
         {{--        <div id="player-trophies-wrapper" class="mt-5 row justify-content-center gap-2">--}}
         {{--            --}}
         {{--        </div>--}}
 
-        {{--        <hr class="my-4">--}}
+        {{--        <hr class="mt-5 mb-4">--}}
 
-        <div id="player-stats-wrapper" class="row justify-content-center gap-2">
+        <div id="player-stats-wrapper">
             @include('player.stats-general')
         </div>
 
-        <hr class="my-4">
+        <hr class="mt-5 mb-4">
 
         <div id="player-takes-wrapper" class="row justify-content-center gap-2">
             @include('player.stats-takes')
         </div>
 
-        <hr class="my-4">
+        <hr class="mt-5 mb-4">
 
-{{--        <div id="player-defense-wrapper">--}}
-{{--            @include('player.stats-defense')--}}
-{{--        </div>--}}
+        <div id="player-defense-wrapper">
+            @include('player.stats-defense')
+        </div>
 
-{{--        <hr class="my-4">--}}
+        <hr class="mt-5 mb-4">
 
         <div>
             <h3 class="text-center">Historique de parties</h3>
 
             @php
-                $hands = $player['game_players']->groupBy('game_started_at');
+                $hands = $game_players->groupBy('game_started_at');
             @endphp
 
             <div class="mt-4 text-center fst-italic">

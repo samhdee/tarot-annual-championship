@@ -6,11 +6,11 @@ use App\Enums\BGABids;
 use App\Enums\PlayerRoles;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -95,11 +95,11 @@ class GamePlayer extends Model
 
     /**
      * @param $bga_user_id
-     * @return array
+     * @return Collection
      */
-    public static function getPlayerGames($bga_user_id): array
+    public static function getPlayerGames($bga_user_id): Collection
     {
-        $results['game_players'] = self::query()
+        return self::query()
             ->select([
                 'game_players.id', 'game_id', 'hand_player_id', 'bga_bid_id', 'role',
                 'points', 'g.contract_points_diff', 'g.started_at', 'g.is_goulash',
@@ -112,82 +112,24 @@ class GamePlayer extends Model
             ->orderBy('g.started_at')
             ->get()
             ->keyBy('game_id');
+    }
 
-        $results['victories'] = $results['game_players']->filter(function ($item) {
-            return $item->points > 0;
-        })->values();
-
-        $results['takes'] = $results['game_players']->filter(function ($item) {
-            return $item->role === PlayerRoles::taker->name;
-        })->values();
-
-        $results['successful_takes'] = $results['game_players']->filter(function ($item) {
-            return $item->role === PlayerRoles::taker->name && $item->points > 0;
-        })->values();
-
-        // Graph WR par enchère
-        $count_garde = $results['game_players']->filter(function ($item) {
-            return $item->bga_bid_id == BGABids::GARDE->value;
-        })->count();
-        $count_garde_sans = $results['game_players']->filter(function ($item) {
-            return $item->bga_bid_id == BGABids::GARDE_SANS->value;
-        })->count();
-        $count_garde_contre = $results['game_players']->filter(function ($item) {
-            return $item->bga_bid_id == BGABids::GARDE_CONTRE->value;
-        })->count();
-
-        $results['stats_takes'] = [
-            'labels' => ['Garde', 'Garde sans', 'Garde contre'],
-            'values' => [
-                !empty($count_garde)
-                    ? number_format(100 *
-                        $results['game_players']->filter(function ($item) {
-                            return $item->bga_bid_id == BGABids::GARDE->value && $item->points > 0;
-                        })->count() / $count_garde, 2)
-                    : 0,
-                !empty($count_garde_sans)
-                    ? number_format(100 *
-                        $results['game_players']->filter(function ($item) {
-                            return $item->bga_bid_id == BGABids::GARDE_SANS->value && $item->points > 0;
-                        })->count() / $count_garde_sans, 2)
-                    : 0,
-                !empty($count_garde_contre)
-                    ? number_format(100 *
-                        $results['game_players']->filter(function ($item) {
-                            return $item->bga_bid_id == BGABids::GARDE_CONTRE->value && $item->points > 0;
-                        })->count() / $count_garde_contre, 2)
-                    : 0,
-            ],
-        ];
-
-        // Graph WR par partenaire
-        $all_partners = self::query()
+    /**
+     * @param $game_ids
+     * @param $bga_user_id
+     * @return Collection
+     */
+    public static function getPlayerAllPartners($game_ids, $bga_user_id): Collection
+    {
+        return self::query()
             ->select(['game_players.game_id', 'game_players.points', 'bu.bga_username'])
             ->join('hand_players as hp', 'hp.id', 'game_players.hand_player_id')
             ->join('bga_users as bu', 'bu.id', 'hp.bga_user_id')
-            ->whereIn('game_players.game_id', $results['takes']->pluck('game_id')->toArray())
+            ->whereIn('game_players.game_id', $game_ids)
             ->where('game_players.role', PlayerRoles::taker_partner->name)
             ->where('hp.bga_user_id', '!=', $bga_user_id)
             ->orderBy('bga_username')
             ->get()
             ->keyBy('game_id');
-
-        foreach ($all_partners->pluck('bga_username')->unique()->toArray() as $username) {
-            $partner_games_count = $all_partners->filter(function ($item) use ($username) {
-                return $item->bga_username === $username;
-            })->count();
-            if (!empty($partner_games_count)) {
-                $results['stats_partners']['values'][$username] = number_format(100 * $all_partners->filter(function ($item) use ($username) {
-                        return intval($item->points) > 0 && $item->bga_username === $username;
-                    })->count() / $partner_games_count, 2);
-            } else {
-                $results['stats_partners']['values'][$username] = 0;
-            }
-        }
-
-        $results['stats_partners']['labels'] = array_keys($results['stats_partners']['values']);
-        sort($results['stats_partners']['labels']);
-
-        return $results;
     }
 }

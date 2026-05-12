@@ -91,15 +91,13 @@ class BgaUser extends Model
      * @param int $bga_user_id
      * @return array|null
      */
-    public static function getPlayerStats(int $bga_user_id): ?array
+    public static function getPlayerStats(int $bga_user_id): ?BgaUser
     {
-        $results['hands'] = self::query()
+        return self::query()
             ->select(['id', 'bga_username'])
             ->with('handPlayersDesc:id,bga_user_id,total_points')
             ->withSum('handPlayers as all_total_points', 'total_points')
             ->where('id', $bga_user_id)
             ->first();
-
-        return array_merge($results, GamePlayer::getPlayerGames($bga_user_id));
     }
 }
