@@ -58,8 +58,16 @@
     {{--    </div>--}}
 </div>
 
-<div class="mt-4">
-    <div>Victoires par type de contrat :</div>
+<div class="mt-4 row justify-content-between">
+    <div class="col-5">
+        <div>Victoires par type de contrat :</div>
 
-    <canvas id="player-stats-takes" class="mt-3 player-chart" data-values='@json($player['stats_takes'])' data-title="Contrats"></canvas>
+        <canvas id="player-stats-takes" class="mt-3 player-chart" data-values='@json($player['stats_takes'])' data-title="Contrats"></canvas>
+    </div>
+
+    <div class="col-6">
+        <div>Victoires par partenaire :</div>
+
+        <canvas id="player-stats-partner" class="mt-3 player-chart" data-values='@json($player['stats_partners'])' data-title="Partenaires"></canvas>
+    </div>
 </div>

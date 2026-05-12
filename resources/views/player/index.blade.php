@@ -38,11 +38,11 @@
 
         <hr class="my-4">
 
-        <div id="player-defense-wrapper">
-            @include('player.stats-defense')
-        </div>
+{{--        <div id="player-defense-wrapper">--}}
+{{--            @include('player.stats-defense')--}}
+{{--        </div>--}}
 
-        <hr class="my-4">
+{{--        <hr class="my-4">--}}
 
         <div>
             <h3 class="text-center">Historique de parties</h3>

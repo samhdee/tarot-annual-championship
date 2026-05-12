@@ -2,16 +2,10 @@
 
 #player-profile-container {
     .card-header {
-        font-size: 1.3rem;
-    }
-    .card-body {
-        min-height: 69px;
         font-size: 1.1rem;
     }
-
-    .player-chart {
-        max-height: 400px;
-        max-width: 45%;
+    .card-body {
+        min-height: 65px;
     }
 
     #player-games-wrapper {
