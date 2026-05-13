@@ -57,19 +57,18 @@
                         title="Ouvre un nouvel onglet"
                     >
                         #{{ $hand->bga_hand_id }}
+                        <sup><i class="fas fa-arrow-up-right-from-square"></i></sup>
                     </a>
                 </td>
 
                 <td>
                     @foreach ($players_pts_desc as $hand_player)
-                        <a class="me-1 player-badge" href="{{ route('player_profile_index', $hand_player->bga_user_id) }}">
-                            <img
-                                src="{{ BgaUser::getAvatar($hand_player->bgaUser->bga_username) }}"
-                                width="25"
-                                alt="{{ substr($hand_player->bgaUser->bga_username, 0, 2) }}"
-                                title="{{ $hand_player->bgaUser->bga_username }}"
-                            />
-                        </a>
+                        <x-player-badge
+                            :bga_user_id="$hand_player->bga_user_id"
+                            :bga_username="$hand_player->bgaUser->bga_username"
+                            :badge_width="25"
+                            :show_name="false"
+                        />
                     @endforeach
                 </td>
 
@@ -78,19 +77,15 @@
                         $winner = $players_pts_desc->first();
                     @endphp
 
-                    <a class="player-badge" href="#">
-                        <img
-                            class="me-2"
-                            src="{{ BgaUser::getAvatar($winner->bgaUser->bga_username) }}"
-                            width="40"
-                            alt="{{ substr($winner->bgaUser->bga_username, 0, 2) }}"
-                        />
-
-                        {{ $winner->bgaUser->bga_username }}
-                    </a>
+                    <x-player-badge
+                        :bga_user_id="$winner->bga_user_id"
+                        :bga_username="$winner->bgaUser->bga_username"
+                        :badge_width="40"
+                        :show_name="true"
+                    />
                 </td>
 
-                <td>{{ $hand->players->first()->total_points }} points</td>
+                <td>{{ $hand->players->first()->total_points }} pts</td>
 
                 <td class="text-center">
                     <a class="p-1 btn btn-sm btn-primary" href="#" title="Voir la session">

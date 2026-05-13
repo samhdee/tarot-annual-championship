@@ -1,6 +1,6 @@
 <h3 class="text-center">Les prises</h3>
 
-<div class="row justify-content-center">
+<div class="mt-4 row justify-content-center">
     <div class="col-2">
         <div class="card">
             <div class="card-header text-center">Taux de prise</div>
@@ -58,16 +58,31 @@
     {{--    </div>--}}
 </div>
 
-<div class="mt-4 row justify-content-between">
+<div class="mt-5 row justify-content-between">
     <div class="col-5">
         <div>Victoires par type de contrat :</div>
 
-        <canvas id="player-stats-takes" class="mt-3 player-chart" data-values='@json($stats_takes)' data-title="Contrats"></canvas>
+        <canvas
+            class="mt-3 player-chart"
+            data-values='@json($stats_takes)'
+            data-title="Pourcentage de réussite"
+            data-type="bar"
+            data-max="100"
+            data-unit="%"
+        ></canvas>
     </div>
 
     <div class="col-6">
         <div>Victoires par partenaire :</div>
 
-        <canvas id="player-stats-partner" class="mt-3 player-chart" data-values='@json($stats_partners)' data-title="Partenaires"></canvas>
+        <canvas
+            class="mt-3 player-chart"
+            data-values='@json($stats_partners)'
+            data-title="Pourcentage de réussite"
+            data-type="bar"
+            data-percentage="1"
+            data-max="100"
+            data-unit="%"
+        ></canvas>
     </div>
 </div>

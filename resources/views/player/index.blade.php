@@ -47,17 +47,13 @@
         <div>
             <h3 class="text-center">Historique de parties</h3>
 
-            @php
-                $hands = $game_players->groupBy('game_started_at');
-            @endphp
-
             <div class="mt-4 text-center fst-italic">
                 <span class="me-1">Partie du</span>
 
                 <select id="player-history-date" class="select2" style="width: 125px;">
-                    @foreach($hands->keys() as $game_date)
-                        <option value="{{ $game_date }}">
-                            {{ Carbon::createFromFormat('Y-m-d', $game_date)->format('d/m/Y') }}
+                    @foreach($hands_dates as $hand_date)
+                        <option value="{{ $hand_date }}">
+                            {{ Carbon::createFromFormat('Y-m-d', $hand_date)->format('d/m/Y') }}
                         </option>
                     @endforeach
                 </select>

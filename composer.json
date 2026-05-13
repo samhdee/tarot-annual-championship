@@ -15,7 +15,8 @@
         "laravel/tinker": "^2.10.1",
         "laravel/ui": "^4.6",
         "symfony/css-selector": "^8.0",
-        "symfony/dom-crawler": "^8.0"
+        "symfony/dom-crawler": "^8.0",
+        "ext-intl": "*"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.16",

@@ -24,8 +24,26 @@ $(document).ready(() => {
     document.querySelectorAll('.player-chart').forEach((canvas) => {
         const dataset = JSON.parse(canvas.dataset.values);
 
+        let y_options = {
+            beginAtZero: true,
+            ticks: {
+                callback: function (value) {
+                    return `${value}${canvas.dataset.unit}`;
+                }
+            }
+        };
+
+        if (typeof canvas.dataset.max !== 'undefined') {
+           y_options = {
+               ...y_options,
+               ...{
+                    max: canvas.dataset.max,
+               }
+           }
+        }
+
         new Chart(canvas, {
-            type: 'bar',
+            type: canvas.dataset.type,
             data: {
                 labels: dataset.labels,
                 datasets: [{
@@ -35,17 +53,9 @@ $(document).ready(() => {
             },
             options: {
                 scales: {
-                    y: {
-                        beginAtZero: true,
-                        max: 100,
-                        ticks: {
-                            callback: function (value) {
-                                return `${value}%`;
-                            }
-                        }
-                    }
+                    y: y_options
                 }
-            },
+            }
         });
     });
 });
