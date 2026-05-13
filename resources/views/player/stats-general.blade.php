@@ -53,8 +53,7 @@
     <div class="text-center">Évolution des scores :</div>
 
     <canvas
-        id="player-stats-points"
-        class="mt-3 player-chart"
+        class="mt-3 player-chart line-chart"
         data-values='@json($stats_scores)'
         data-title="Moyenne des points"
         data-type="line"

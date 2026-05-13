@@ -32,14 +32,22 @@ class PlayerProfileController extends Controller
         // Dates des manches
         $data['hands_dates'] = $data['game_players']->groupBy('game_started_at')->keys();
 
+        $start = Carbon::parse($data['hands_dates']->last());
+        $end = Carbon::parse($data['hands_dates']->first());
+        $months = CarbonPeriod::create($start, '1 month', $end);
+        $period = collect($months)->map(fn($date) => $date->format('Y-m'))->toArray();
+
         // Graph Évolution scores
-        $data['stats_scores'] = $this->getPointsEvolutionStats($data);
+        $data['stats_scores'] = $this->getPointsEvolutionStats($data, $period);
 
         // Graph WR par enchère
         $data['stats_takes'] = $this->getBidWRStats($data);
 
         // Graph WR par partenaire
         $data['stats_partners'] = $this->getPartnerWRStats($data, $bga_user_id);
+
+        // Graph Évolution des points quand preneur.euse
+        $data['stats_scores_takes'] = $this->getPointsEvolutionTakesStats($data, $period);
 
         return view('player.index', $data);
     }
@@ -51,15 +59,11 @@ class PlayerProfileController extends Controller
 
     /**
      * @param array $data
+     * @param array $period
      * @return array
      */
-    public function getPointsEvolutionStats(array $data): array
+    public function getPointsEvolutionStats(array $data, array $period): array
     {
-        $start = Carbon::parse($data['hands_dates']->last());
-        $end = Carbon::parse($data['hands_dates']->first());
-        $months = CarbonPeriod::create($start, '1 month', $end);
-        $period = collect($months)->map(fn($date) => $date->format('Y-m'))->toArray();
-
         foreach ($period as $month) {
             $games = $data['game_players']->filter(function ($item) use ($month) {
                 return str_starts_with($item->game_started_at, $month);
@@ -143,5 +147,26 @@ class PlayerProfileController extends Controller
         $stats_partner['labels'] = array_keys($stats_partner['values']);
         sort($stats_partner['labels']);
         return $stats_partner;
+    }
+
+    /**
+     * @param array $data
+     * @param array $period
+     * @return array
+     */
+    public function getPointsEvolutionTakesStats(array $data, array $period): array
+    {
+        foreach ($period as $month) {
+            $games = $data['takes']->filter(function ($item) use ($month) {
+                return str_starts_with($item->game_started_at, $month);
+            });
+
+            $stats_scores['labels'][] = ucfirst(Carbon::parse($month)->translatedFormat('F'));
+            $stats_scores['values'][] = $games->isNotEmpty()
+                ? number_format($games->pluck('points')->sum() / $games->count(), 2)
+                : 0;
+        }
+
+        return $stats_scores;
     }
 }

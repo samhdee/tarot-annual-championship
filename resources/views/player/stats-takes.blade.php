@@ -22,6 +22,7 @@
             </div>
         </div>
     </div>
+
     <div class="col-2">
         <div class="card">
             <div class="card-header text-center">Taux de victoire</div>
@@ -85,4 +86,16 @@
             data-unit="%"
         ></canvas>
     </div>
+</div>
+
+<div class="mt-5">
+    <div class="text-center">Évolution des scores :</div>
+
+    <canvas
+        class="mt-3 player-chart line-chart"
+        data-values='@json($stats_scores_takes)'
+        data-title="Moyenne des points"
+        data-type="line"
+        data-unit="pts"
+    ></canvas>
 </div>
